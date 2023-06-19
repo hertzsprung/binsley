@@ -2,7 +2,7 @@ on: workflow_dispatch
 permissions:
   id-token: write
 jobs:
-  aws-sts-get-caller-identity:
+  cdk-ls:
     runs-on: ubuntu-22.04
     steps:
       - name: configure-aws-credentials
@@ -13,3 +13,9 @@ jobs:
           aws-region: eu-west-1
       - name: sts-get-caller-identity
         run: aws sts get-caller-identity
+      - name: npm-install-cdk
+        run: npm install -g aws-cdk@2.84.0
+      - name: checkout
+        uses: actions/checkout@v3.5.3
+      - name: cdk-ls
+        run: cdk ls
