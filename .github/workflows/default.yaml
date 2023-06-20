@@ -2,7 +2,7 @@ on: workflow_dispatch
 permissions:
   id-token: write
 jobs:
-  cdk-ls:
+  cdk-deploy:
     runs-on: ubuntu-22.04
     steps:
       - name: configure-aws-credentials
@@ -23,5 +23,5 @@ jobs:
           distribution: 'corretto'
           java-version: '17'
           cache: 'gradle'
-      - name: cdk-ls
-        run: cdk ls
+      - name: cdk-deploy
+        run: cdk deploy
