@@ -26,10 +26,10 @@ jobs:
       - name: cdk-permissions-broadening
         run: cdk diff --security-only --fail > cdk-diff-security
       - uses: actions/upload-artifact@v3.1.2
+        if: failure()
         with:
           name: cdk-diff-security
           path: cdk-diff-security
-          if: failure()
       - name: cdk-deploy
         run: cdk deploy --require-approval never
         if: success() || failure()
