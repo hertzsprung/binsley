@@ -24,9 +24,11 @@ jobs:
           java-version: '17'
           cache: 'gradle'
       - name: cdk-permissions-broadening
+        id: cdk-permissions-broadening
         run: cdk diff --security-only --fail > cdk-diff-security
+        continue-on-error: true
       - uses: actions/upload-artifact@v3.1.2
-        if: failure()
+        if: steps.cdk-permissions-broadening.outcome == 'failure'
         with:
           name: cdk-diff-security
           path: cdk-diff-security
