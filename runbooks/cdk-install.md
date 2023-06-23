@@ -19,5 +19,19 @@ aws iam put-role-policy \
   --policy-document file://cdk-install.policy.json
 ```
 
+# Permissions boundary
+
+Based on [Secure CDK deployments with IAM permission boundaries][permissions-boundary].
+
+```
+aws iam create-policy \
+  --policy-name cdk-boundary-policy \
+  --policy-document file://cdk-install.permissions-boundary.policy.json \
+  --description "CDK Bootstrap boundary permissions policy"
+
+cdk bootstrap --custom-permissions-boundary cdk-boundary-policy
+```
+
 [cdk-docs]: https://docs.aws.amazon.com/cdk/v2/guide/cli.html
+[permissions-boundary]: https://aws.amazon.com/blogs/devops/secure-cdk-deployments-with-iam-permission-boundaries/
 [so-cdk-iam]: https://stackoverflow.com/q/57118082/150884
