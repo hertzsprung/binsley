@@ -18,7 +18,7 @@ java {
 }
 
 application {
-    mainClass.set("uk.co.datumedge.binsley.CdkApp")
+    mainClass.set("uk.co.datumedge.binsley.BinsleyApp")
 }
 
 repositories {
