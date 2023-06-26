@@ -14,7 +14,7 @@ jobs:
       - name: sts-get-caller-identity
         run: aws sts get-caller-identity
       - name: npm-install-cdk
-        run: npm install -g aws-cdk@2.84.0
+        run: npm install -g aws-cdk@2.85.0
       - name: checkout
         uses: actions/checkout@v3.5.3
       - name: setup-java

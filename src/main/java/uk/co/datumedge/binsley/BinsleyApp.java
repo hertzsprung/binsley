@@ -2,11 +2,11 @@ package uk.co.datumedge.binsley;
 
 import software.amazon.awscdk.App;
 
-public final class CdkApp {
+public final class BinsleyApp {
     public static void main(final String[] args) {
         App app = new App();
 
-        new CdkStack(app, "CdkStack");
+        new BinsleyStack(app, "CdkStack");
 
         app.synth();
     }
