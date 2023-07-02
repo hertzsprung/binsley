@@ -33,5 +33,5 @@ jobs:
           name: cdk-diff-security
           path: cdk-diff-security
       - name: cdk-deploy
-        run: cdk deploy --require-approval never
+        run: cdk deploy --all --require-approval never
         if: success() || failure()
