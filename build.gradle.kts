@@ -27,5 +27,5 @@ repositories {
 
 dependencies {
     implementation("software.amazon.awscdk:aws-cdk-lib:2.85.0")
-    implementation("software.constructs:constructs:10.2.60")
+    implementation("software.constructs:constructs:10.2.67")
 }
