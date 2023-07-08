@@ -13,8 +13,8 @@
     ]
   },
   "context": {
-    "binsley/billing:alarmEmail": "js102@zepler.net",
-    "binsley/billing:monthlyUsdAlarmThreshold": 10,
+    "datumedge/billing:alarmEmail": "js102@zepler.net",
+    "datumedge/billing:monthlyUsdAlarmThreshold": 10,
     "@aws-cdk/core:permissionsBoundary": {
       "name": "cdk-boundary-policy"
     },

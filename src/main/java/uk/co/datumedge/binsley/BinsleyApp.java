@@ -6,9 +6,8 @@ public final class BinsleyApp {
     public static void main(final String[] args) {
         App app = new App();
 
-        new BillingStack(app, "BillingStack");
-        new BinsleyStack(app, "BinsleyStack");
-        new ResourceExplorerStack(app, "ResourceExplorerStack");
+        new BillingStack(app, "Billing");
+        new BinsleyStack(app, "Binsley");
 
         app.synth();
     }

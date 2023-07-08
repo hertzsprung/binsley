@@ -2,11 +2,16 @@ package uk.co.datumedge.binsley;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.services.apigateway.EndpointType;
 import software.amazon.awscdk.services.apigateway.LambdaRestApi;
+import software.amazon.awscdk.services.apigateway.StageOptions;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
+import software.amazon.awscdk.services.ssm.StringParameter;
 import software.constructs.Construct;
+
+import java.util.List;
 
 public class BinsleyStack extends Stack {
     public BinsleyStack(final Construct parent, final String id) {
@@ -15,14 +20,21 @@ public class BinsleyStack extends Stack {
 
     public BinsleyStack(final Construct parent, final String id, final StackProps props) {
         super(parent, id, props);
-        Function helloWorldLambda = Function.Builder.create(this, "GetStartedLambdaProxyIntegration")
+        Function apiLambda = Function.Builder.create(this, "ApiLambda")
                 .runtime(Runtime.NODEJS_18_X)
                 .handler("index.handler")
                 .code(Code.fromAsset("src/main/resources/GetStartedLambdaProxyIntegration/"))
                 .build();
 
-        LambdaRestApi.Builder.create(this, "LambdaSimpleProxy")
-                .handler(helloWorldLambda)
+        LambdaRestApi api = LambdaRestApi.Builder.create(this, "Api")
+                .handler(apiLambda)
+                .endpointTypes(List.of(EndpointType.REGIONAL))
+                .deployOptions(StageOptions.builder().stageName("v1").build())
+                .build();
+
+        StringParameter.Builder.create(this, "ApiBaseUrl")
+                .parameterName("/" + this.getNode().getPath() + "/ApiBaseUrl")
+                .stringValue(api.getUrl())
                 .build();
     }
 }

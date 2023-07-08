@@ -12,7 +12,7 @@ import software.amazon.awscdk.services.sns.Topic;
 import software.amazon.awscdk.services.sns.subscriptions.EmailSubscription;
 import software.constructs.Construct;
 
-import java.util.Collections;
+import java.util.Map;
 
 public class BillingStack extends Stack {
     public BillingStack(final Construct parent, final String id) {
@@ -28,7 +28,7 @@ public class BillingStack extends Stack {
                 .metric(Metric.Builder.create()
                         .metricName("EstimatedCharges")
                         .namespace("AWS/Billing")
-                        .dimensionsMap(Collections.singletonMap("Currency", "USD"))
+                        .dimensionsMap(Map.of("Currency", "USD"))
                         .period(Duration.hours(6))
                         .statistic(Stats.MAXIMUM)
                         .build())
@@ -47,10 +47,10 @@ public class BillingStack extends Stack {
     }
 
     private Number billingMonthlyUsdAlarmThreshold() {
-        return (Number) this.getNode().getContext("binsley/billing:monthlyUsdAlarmThreshold");
+        return (Number) this.getNode().getContext("datumedge/billing:monthlyUsdAlarmThreshold");
     }
 
     private String billingAlarmEmail() {
-        return (String) this.getNode().getContext("binsley/billing:alarmEmail");
+        return (String) this.getNode().getContext("datumedge/billing:alarmEmail");
     }
 }
