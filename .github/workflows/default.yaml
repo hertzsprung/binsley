@@ -2,7 +2,7 @@ on: workflow_dispatch
 permissions:
   id-token: write
 jobs:
-  cdk-deploy:
+  cdk-deploy-gradle-test:
     runs-on: ubuntu-22.04
     steps:
       - name: configure-aws-credentials
@@ -35,3 +35,5 @@ jobs:
       - name: cdk-deploy
         run: cdk deploy --all --require-approval never
         if: success() || failure()
+      - name: gradle-test
+        run: ./gradlew test
