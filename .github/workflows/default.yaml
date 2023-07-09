@@ -1,6 +1,7 @@
 on: workflow_dispatch
 permissions:
   id-token: write
+  checks: write
 jobs:
   cdk-deploy-gradle-test:
     runs-on: ubuntu-22.04
