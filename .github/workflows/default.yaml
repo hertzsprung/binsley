@@ -37,3 +37,8 @@ jobs:
         if: success() || failure()
       - name: gradle-test
         run: ./gradlew test
+      - name: test-report
+        uses: mikepenz/action-junit-report@v3.7.8
+        if: success() || failure()
+        with:
+          report_paths: 'build/test-results/test/TEST-*.xml'
