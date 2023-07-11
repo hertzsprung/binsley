@@ -7,6 +7,7 @@ import software.amazon.awscdk.services.apigateway.LambdaRestApi;
 import software.amazon.awscdk.services.apigateway.StageOptions;
 import software.amazon.awscdk.services.iam.IRole;
 import software.amazon.awscdk.services.iam.Role;
+import software.amazon.awscdk.services.iam.SessionTagsPrincipal;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
@@ -43,7 +44,7 @@ public class BinsleyStack extends Stack {
 
         IRole testRunner = Role.Builder.create(this, "TestRunner")
                 .roleName("BinsleyTestRunner")
-                .assumedBy(githubRole)
+                .assumedBy(new SessionTagsPrincipal(githubRole))
                 .build();
 
         apiBaseUrl.grantRead(testRunner);
