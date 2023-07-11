@@ -41,6 +41,7 @@ jobs:
         with:
           role-to-assume: BinsleyTestRunner
           role-chaining: true
+          aws-region: eu-west-1
       - name: gradle-test
         run: ./gradlew test
       - name: test-report
