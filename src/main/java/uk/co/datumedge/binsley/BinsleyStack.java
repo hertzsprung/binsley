@@ -5,6 +5,8 @@ import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.apigateway.EndpointType;
 import software.amazon.awscdk.services.apigateway.LambdaRestApi;
 import software.amazon.awscdk.services.apigateway.StageOptions;
+import software.amazon.awscdk.services.iam.IRole;
+import software.amazon.awscdk.services.iam.Role;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
@@ -32,9 +34,18 @@ public class BinsleyStack extends Stack {
                 .deployOptions(StageOptions.builder().stageName("v1").build())
                 .build();
 
-        StringParameter.Builder.create(this, "ApiBaseUrl")
-                .parameterName("/" + this.getNode().getPath() + "/ApiBaseUrl")
+        StringParameter apiBaseUrl = StringParameter.Builder.create(this, "ApiBaseUrl")
+                .parameterName("/binsley/ApiBaseUrl")
                 .stringValue(api.getUrl())
                 .build();
+
+        IRole githubRole = Role.fromRoleName(this, "GitHubRole", "GitHubAction-AssumeRoleWithAction");
+
+        IRole testRunner = Role.Builder.create(this, "TestRunner")
+                .roleName("BinsleyTestRunner")
+                .assumedBy(githubRole)
+                .build();
+
+        apiBaseUrl.grantRead(testRunner);
     }
 }
