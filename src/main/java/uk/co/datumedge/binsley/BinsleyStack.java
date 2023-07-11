@@ -36,7 +36,7 @@ public class BinsleyStack extends Stack {
                 .build();
 
         StringParameter apiBaseUrl = StringParameter.Builder.create(this, "ApiBaseUrl")
-                .parameterName("/binsley/ApiBaseUrl")
+                .parameterName("/Binsley/ApiBaseUrl")
                 .stringValue(api.getUrl())
                 .build();
 
