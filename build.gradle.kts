@@ -27,7 +27,7 @@ dependencies {
     implementation("io.github.cdklabs:cdk-stacksets:0.0.148")
     testImplementation(platform("org.junit:junit-bom:5.9.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation(platform("software.amazon.awssdk:bom:2.20.101"))
+    testImplementation(platform("software.amazon.awssdk:bom:2.20.102"))
     testImplementation("software.amazon.awssdk:ssm")
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
