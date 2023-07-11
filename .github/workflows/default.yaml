@@ -36,6 +36,12 @@ jobs:
       - name: cdk-deploy
         run: cdk deploy --all --require-approval never
         if: success() || failure()
+      - name: assume-test-runner-role
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: BinsleyTestRunner
+          role-chaining: true
+          aws-region: eu-west-1
       - name: gradle-test
         run: ./gradlew test
       - name: test-report
