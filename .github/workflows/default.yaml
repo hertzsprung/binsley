@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: configure-aws-credentials
-        uses: aws-actions/configure-aws-credentials@v2.2.0
+        uses: aws-actions/configure-aws-credentials@v3.0.1
         with:
           role-to-assume: arn:aws:iam::779481764036:role/GitHubAction-AssumeRoleWithAction
           role-session-name: GitHubAction-${{ github.run_id }}-${{ github.run_number }}
@@ -17,7 +17,7 @@ jobs:
       - name: npm-install-cdk
         run: npm install -g aws-cdk@2.92.0
       - name: checkout
-        uses: actions/checkout@v3.5.3
+        uses: actions/checkout@v3.6.0
       - name: setup-java
         uses: actions/setup-java@v3.12.0
         with:
@@ -37,7 +37,7 @@ jobs:
         run: cdk deploy --all --require-approval never
         if: success() || failure()
       - name: assume-test-runner-role
-        uses: aws-actions/configure-aws-credentials@v2.2.0
+        uses: aws-actions/configure-aws-credentials@v3.0.1
         with:
           role-to-assume: BinsleyTestRunner
           role-chaining: true

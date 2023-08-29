@@ -22,15 +22,15 @@ repositories {
 }
 
 dependencies {
-    implementation("ch.qos.logback:logback-classic:1.4.8")
-    implementation("software.amazon.awscdk:aws-cdk-lib:2.89.0")
+    implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.93.0")
     implementation("software.constructs:constructs:10.2.69")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(platform("org.assertj:assertj-bom:3.24.2"))
     testImplementation("org.assertj:assertj-core")
-    testImplementation(platform("software.amazon.awssdk:bom:2.20.110"))
+    testImplementation(platform("software.amazon.awssdk:bom:2.20.136"))
     testImplementation("software.amazon.awssdk:cognitoidentityprovider")
     testImplementation("software.amazon.awssdk:ssm")
     testImplementation("software.amazon.awssdk:sso")
