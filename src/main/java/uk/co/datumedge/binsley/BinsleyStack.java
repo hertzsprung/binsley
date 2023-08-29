@@ -5,6 +5,7 @@ import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.apigateway.EndpointType;
 import software.amazon.awscdk.services.apigateway.LambdaRestApi;
 import software.amazon.awscdk.services.apigateway.StageOptions;
+import software.amazon.awscdk.services.cognito.*;
 import software.amazon.awscdk.services.iam.IRole;
 import software.amazon.awscdk.services.iam.Role;
 import software.amazon.awscdk.services.iam.SessionTagsPrincipal;
@@ -48,5 +49,13 @@ public class BinsleyStack extends Stack {
                 .build();
 
         apiBaseUrl.grantRead(testRunner);
+
+        UserPool userPool = UserPool.Builder.create(this, "UserPool").build();
+
+        UserPoolClient userPoolClient = userPool.addClient("Client");
+
+        UserPoolDomain userPoolDomain = userPool.addDomain("Domain", UserPoolDomainOptions.builder()
+                .cognitoDomain(CognitoDomainOptions.builder().domainPrefix("binsley").build())
+                .build());
     }
 }
