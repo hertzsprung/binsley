@@ -89,6 +89,7 @@ public class BinsleyStack extends Stack {
                 .stringValue(userPoolDomain.baseUrl())
                 .build();
 
+        userPool.grant(testRunner, "cognito-idp:DescribeUserPoolClient");
         userPoolId.grantRead(testRunner);
         userPoolClientId.grantRead(testRunner);
         userPoolDomainBaseUrl.grantRead(testRunner);
