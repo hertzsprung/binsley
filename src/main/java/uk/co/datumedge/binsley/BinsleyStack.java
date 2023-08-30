@@ -59,11 +59,6 @@ public class BinsleyStack extends Stack {
                         .scopeDescription("read something")
                         .build())).build());
 
-        StringParameter.Builder.create(this, "UserPoolId")
-                .parameterName("/Binsley/UserPoolId")
-                .stringValue(userPool.getUserPoolId())
-                .build();
-
         // TODO: explicit dependency needed onto UserPoolResourceServer because the OAuthScope references the ResourceServerScope
         UserPoolClient userPoolClient = userPool.addClient("Client", UserPoolClientOptions.builder()
                 .generateSecret(true)
@@ -75,18 +70,27 @@ public class BinsleyStack extends Stack {
                 .preventUserExistenceErrors(true)
                 .build());
 
-        StringParameter.Builder.create(this, "UserPoolClientId")
-                .parameterName("/Binsley/UserPoolClientId")
-                .stringValue(userPoolClient.getUserPoolClientId())
-                .build();
-
         UserPoolDomain userPoolDomain = userPool.addDomain("Domain", UserPoolDomainOptions.builder()
                 .cognitoDomain(CognitoDomainOptions.builder().domainPrefix("binsley").build())
                 .build());
 
-        StringParameter.Builder.create(this, "UserPoolDomainBaseUrl")
+        StringParameter userPoolId = StringParameter.Builder.create(this, "UserPoolId")
+                .parameterName("/Binsley/UserPoolId")
+                .stringValue(userPool.getUserPoolId())
+                .build();
+
+        StringParameter userPoolClientId = StringParameter.Builder.create(this, "UserPoolClientId")
+                .parameterName("/Binsley/UserPoolClientId")
+                .stringValue(userPoolClient.getUserPoolClientId())
+                .build();
+
+        StringParameter userPoolDomainBaseUrl = StringParameter.Builder.create(this, "UserPoolDomainBaseUrl")
                 .parameterName("/Binsley/UserPoolDomainBaseUrl")
                 .stringValue(userPoolDomain.baseUrl())
                 .build();
+
+        userPoolId.grantRead(testRunner);
+        userPoolClientId.grantRead(testRunner);
+        userPoolDomainBaseUrl.grantRead(testRunner);
     }
 }
