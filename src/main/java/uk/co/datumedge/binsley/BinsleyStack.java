@@ -52,10 +52,41 @@ public class BinsleyStack extends Stack {
 
         UserPool userPool = UserPool.Builder.create(this, "UserPool").build();
 
-        UserPoolClient userPoolClient = userPool.addClient("Client");
+        userPool.addResourceServer("any-endpoint", UserPoolResourceServerOptions.builder()
+                .identifier("any-endpoint")
+                .scopes(List.of(ResourceServerScope.Builder.create()
+                        .scopeName("something.read")
+                        .scopeDescription("read something")
+                        .build())).build());
+
+        StringParameter.Builder.create(this, "UserPoolId")
+                .parameterName("/Binsley/UserPoolId")
+                .stringValue(userPool.getUserPoolId())
+                .build();
+
+        // TODO: explicit dependency needed onto UserPoolResourceServer because the OAuthScope references the ResourceServerScope
+        UserPoolClient userPoolClient = userPool.addClient("Client", UserPoolClientOptions.builder()
+                .generateSecret(true)
+                .oAuth(OAuthSettings.builder()
+                        .scopes(List.of(OAuthScope.custom("any-endpoint/something.read")))
+                        .flows(OAuthFlows.builder().clientCredentials(true).build())
+                        .build())
+                .authFlows(AuthFlow.builder().userSrp(true).build())
+                .preventUserExistenceErrors(true)
+                .build());
+
+        StringParameter.Builder.create(this, "UserPoolClientId")
+                .parameterName("/Binsley/UserPoolClientId")
+                .stringValue(userPoolClient.getUserPoolClientId())
+                .build();
 
         UserPoolDomain userPoolDomain = userPool.addDomain("Domain", UserPoolDomainOptions.builder()
                 .cognitoDomain(CognitoDomainOptions.builder().domainPrefix("binsley").build())
                 .build());
+
+        StringParameter.Builder.create(this, "UserPoolDomainBaseUrl")
+                .parameterName("/Binsley/UserPoolDomainBaseUrl")
+                .stringValue(userPoolDomain.baseUrl())
+                .build();
     }
 }
