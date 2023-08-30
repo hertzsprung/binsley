@@ -52,14 +52,13 @@ public class BinsleyStack extends Stack {
 
         UserPool userPool = UserPool.Builder.create(this, "UserPool").build();
 
-        userPool.addResourceServer("any-endpoint", UserPoolResourceServerOptions.builder()
+        UserPoolResourceServer userPoolResourceServer = userPool.addResourceServer("any-endpoint", UserPoolResourceServerOptions.builder()
                 .identifier("any-endpoint")
                 .scopes(List.of(ResourceServerScope.Builder.create()
                         .scopeName("something.read")
                         .scopeDescription("read something")
                         .build())).build());
 
-        // TODO: explicit dependency needed onto UserPoolResourceServer because the OAuthScope references the ResourceServerScope
         UserPoolClient userPoolClient = userPool.addClient("Client", UserPoolClientOptions.builder()
                 .generateSecret(true)
                 .oAuth(OAuthSettings.builder()
@@ -69,6 +68,9 @@ public class BinsleyStack extends Stack {
                 .authFlows(AuthFlow.builder().userSrp(true).build())
                 .preventUserExistenceErrors(true)
                 .build());
+
+        // TODO: needed because the OAuthScope references the ResourceServerScope
+        userPoolClient.getNode().addDependency(userPoolResourceServer);
 
         UserPoolDomain userPoolDomain = userPool.addDomain("Domain", UserPoolDomainOptions.builder()
                 .cognitoDomain(CognitoDomainOptions.builder().domainPrefix("binsley").build())
