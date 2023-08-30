@@ -69,7 +69,7 @@ public class BinsleyStack extends Stack {
                 .preventUserExistenceErrors(true)
                 .build());
 
-        // TODO: needed because the OAuthScope references the ResourceServerScope
+        // needed because the OAuthScope references the ResourceServerScope
         userPoolClient.getNode().addDependency(userPoolResourceServer);
 
         UserPoolDomain userPoolDomain = userPool.addDomain("Domain", UserPoolDomainOptions.builder()
