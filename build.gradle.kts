@@ -35,4 +35,5 @@ dependencies {
     testImplementation("software.amazon.awssdk:ssm")
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
+    testImplementation("com.fasterxml.jackson.core:jackson-databind")
 }

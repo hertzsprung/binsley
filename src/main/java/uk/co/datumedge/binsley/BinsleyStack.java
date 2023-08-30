@@ -2,9 +2,7 @@ package uk.co.datumedge.binsley;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
-import software.amazon.awscdk.services.apigateway.EndpointType;
-import software.amazon.awscdk.services.apigateway.LambdaRestApi;
-import software.amazon.awscdk.services.apigateway.StageOptions;
+import software.amazon.awscdk.services.apigateway.*;
 import software.amazon.awscdk.services.cognito.*;
 import software.amazon.awscdk.services.iam.IRole;
 import software.amazon.awscdk.services.iam.Role;
@@ -30,25 +28,8 @@ public class BinsleyStack extends Stack {
                 .code(Code.fromAsset("src/main/resources/GetStartedLambdaProxyIntegration/"))
                 .build();
 
-        LambdaRestApi api = LambdaRestApi.Builder.create(this, "Api")
-                .handler(apiLambda)
-                .endpointTypes(List.of(EndpointType.REGIONAL))
-                .deployOptions(StageOptions.builder().stageName("v1").build())
-                .build();
-
-        StringParameter apiBaseUrl = StringParameter.Builder.create(this, "ApiBaseUrl")
-                .parameterName("/Binsley/ApiBaseUrl")
-                .stringValue(api.getUrl())
-                .build();
 
         IRole githubRole = Role.fromRoleName(this, "GitHubRole", "GitHubAction-AssumeRoleWithAction");
-
-        IRole testRunner = Role.Builder.create(this, "TestRunner")
-                .roleName("BinsleyTestRunner")
-                .assumedBy(new SessionTagsPrincipal(githubRole))
-                .build();
-
-        apiBaseUrl.grantRead(testRunner);
 
         UserPool userPool = UserPool.Builder.create(this, "UserPool").build();
 
@@ -76,6 +57,26 @@ public class BinsleyStack extends Stack {
                 .cognitoDomain(CognitoDomainOptions.builder().domainPrefix("binsley").build())
                 .build());
 
+        Authorizer authorizer = CognitoUserPoolsAuthorizer.Builder.create(this, "ApiCognitoAuthorizer")
+                .cognitoUserPools(List.of(userPool))
+                .build();
+
+        LambdaRestApi api = LambdaRestApi.Builder.create(this, "Api")
+                .defaultMethodOptions(MethodOptions.builder()
+                        .authorizationType(AuthorizationType.COGNITO)
+                        .authorizer(authorizer)
+                        .authorizationScopes(List.of("any-endpoint/something.read"))
+                        .build())
+                .handler(apiLambda)
+                .endpointTypes(List.of(EndpointType.REGIONAL))
+                .deployOptions(StageOptions.builder().stageName("v1").build())
+                .build();
+
+        StringParameter apiBaseUrl = StringParameter.Builder.create(this, "ApiBaseUrl")
+                .parameterName("/Binsley/ApiBaseUrl")
+                .stringValue(api.getUrl())
+                .build();
+
         StringParameter userPoolId = StringParameter.Builder.create(this, "UserPoolId")
                 .parameterName("/Binsley/UserPoolId")
                 .stringValue(userPool.getUserPoolId())
@@ -91,6 +92,12 @@ public class BinsleyStack extends Stack {
                 .stringValue(userPoolDomain.baseUrl())
                 .build();
 
+        IRole testRunner = Role.Builder.create(this, "TestRunner")
+                .roleName("BinsleyTestRunner")
+                .assumedBy(new SessionTagsPrincipal(githubRole))
+                .build();
+
+        apiBaseUrl.grantRead(testRunner);
         userPool.grant(testRunner, "cognito-idp:DescribeUserPoolClient");
         userPoolId.grantRead(testRunner);
         userPoolClientId.grantRead(testRunner);
