@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.11")
-    implementation("software.amazon.awscdk:aws-cdk-lib:2.98.0")
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.99.1")
     implementation("software.constructs:constructs:10.2.70")
     implementation("com.pepperize:cdk-organizations:0.7.668")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
