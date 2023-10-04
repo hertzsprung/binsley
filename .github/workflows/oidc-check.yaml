@@ -1,0 +1,15 @@
+on: workflow_dispatch
+permissions:
+  id-token: write
+jobs:
+  aws-sts-get-caller-identity:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.0
+        with:
+          role-to-assume: arn:aws:iam::779481764036:role/GitHubActions
+          role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
+          aws-region: eu-west-1
+      - name: sts-get-caller-identity
+        run: aws sts get-caller-identity

@@ -7,6 +7,7 @@ public final class BinsleyApp {
         App app = new App();
 
         new OrganizationStack(app, "Organization");
+        new StackSetsStack(app, "StackSets");
         new BillingStack(app, "Billing");
         new BinsleyStack(app, "Binsley");
 
