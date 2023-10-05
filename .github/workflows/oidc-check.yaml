@@ -1,4 +1,10 @@
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      awsAccountId:
+        required: true
+        default: "779481764036"
+        description: "AWS account ID (defaults to the management account)"
 permissions:
   id-token: write
 jobs:
@@ -8,7 +14,7 @@ jobs:
       - name: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v4.0.0
         with:
-          role-to-assume: arn:aws:iam::779481764036:role/GitHubActions
+          role-to-assume: "arn:aws:iam::${{ github.event.inputs.awsAccountId }}:role/GitHubActions"
           role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
           aws-region: eu-west-1
       - name: sts-get-caller-identity
