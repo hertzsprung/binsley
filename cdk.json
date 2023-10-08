@@ -15,9 +15,6 @@
   "context": {
     "datumedge/billing:alarmEmail": "js102@zepler.net",
     "datumedge/billing:monthlyUsdAlarmThreshold": 10,
-    "@aws-cdk/core:permissionsBoundary": {
-      "name": "cdk-boundary-policy"
-    },
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": [

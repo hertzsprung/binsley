@@ -1,28 +1,32 @@
 package uk.co.datumedge.binsley;
 
-import software.amazon.awscdk.Stack;
-import software.amazon.awscdk.StackProps;
+import io.github.cdklabs.cdk.stacksets.StackSetStack;
+import io.github.cdklabs.cdk.stacksets.StackSetStackProps;
 import software.amazon.awscdk.services.iam.*;
 import software.constructs.Construct;
 
 import java.util.List;
 import java.util.Map;
 
-public class StackSetsStack extends Stack {
-    public StackSetsStack(final Construct parent, final String id) {
+
+public class GitHubActionsStackSetStack extends StackSetStack {
+    public GitHubActionsStackSetStack(Construct parent, String id) {
         this(parent, id, null);
     }
 
-    public StackSetsStack(Construct parent, String id, StackProps props) {
+    public GitHubActionsStackSetStack(Construct parent, String id, StackSetStackProps props) {
         super(parent, id, props);
-
-        var openIdConnectProvider = new OpenIdConnectProvider(this, "GitHubActionsOpenIdConnectProvider", OpenIdConnectProviderProps.builder()
+        // avoid OpenIdConnectProvider L2 construct because it cannot access a file asset bucket for StackSets
+        // https://github.com/aws/aws-cdk/issues/20460
+        // https://github.com/aws/aws-cdk/issues/21197
+        var openIdConnectProvider = new CfnOIDCProvider(this, "GitHubActionsOpenIdConnectProvider", CfnOIDCProviderProps.builder()
                 .url("https://token.actions.githubusercontent.com")
-                .clientIds(List.of("sts.amazonaws.com"))
+                .clientIdList(List.of("sts.amazonaws.com"))
+                .thumbprintList(List.of("6938fd4d98bab03faadb97b34396831e3780aea1", "1c58a3a8518e8759bf075b76b750d4f2df264fcd"))
                 .build());
 
         var oidcPrincipal = new FederatedPrincipal(
-                openIdConnectProvider.getOpenIdConnectProviderArn(),
+                openIdConnectProvider.getAttrArn(),
                 Map.of("StringEquals", Map.of(
                         "token.actions.githubusercontent.com:sub", "repo:hertzsprung/binsley:ref:refs/heads/main",
                         "token.actions.githubusercontent.com:aud", "sts.amazonaws.com")),
