@@ -1,3 +1,5 @@
+import java.io.FileOutputStream
+
 plugins {
     application
 }
@@ -38,4 +40,16 @@ dependencies {
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
     testImplementation("com.fasterxml.jackson.core:jackson-databind")
+}
+
+val generateCdkBootstrap = tasks.register<Exec>("generateCdkBootstrap") {
+    commandLine("cdk", "bootstrap", "--show-template")
+
+    doFirst {
+        standardOutput = FileOutputStream(layout.buildDirectory.file("cdk-bootstrap.generated.yaml").get().asFile)
+    }
+}
+
+tasks.named("run") {
+    dependsOn(generateCdkBootstrap)
 }

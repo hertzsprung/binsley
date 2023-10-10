@@ -9,7 +9,6 @@ import software.constructs.Construct;
 // OUs won't be registered with Control Tower, which can only be done via the AWS Console
 // https://repost.aws/questions/QUowD5zNXBQ6ewmXDas_wH8A/is-it-possible-to-creating-control-tower-ous-programmatically-with-selected-guardrails
 public class OrganizationStack extends Stack {
-
     private final OrganizationalUnit workloadsOU;
 
     public OrganizationStack(final Construct parent, final String id) {

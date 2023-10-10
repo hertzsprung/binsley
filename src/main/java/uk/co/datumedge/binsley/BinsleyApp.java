@@ -8,7 +8,7 @@ public final class BinsleyApp {
     public static void main(final String[] args) {
         App app = new App();
 
-        OrganizationStack organization = new OrganizationStack(app, "Organization");
+        var organization = new OrganizationStack(app, "Organization");
         new GitHubActionsCdkBootstrapStack(app, "GitHubActionsCdkBootstrap", GitHubActionsCdkBootstrapStackProps.builder()
                 .organizationalUnits(List.of(organization.getWorkloadsOUId()))
                 .build());

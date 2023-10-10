@@ -36,7 +36,7 @@ public class GitHubActionsCdkBootstrapStack extends Stack {
         try {
             new CfnStackSet(this, "CdkBootstrapStackSet", CfnStackSetProps.builder()
                     .stackSetName("CdkBootstrap")
-                    .templateBody(Files.readString(Paths.get("cdk-bootstrap.generated.yaml"), StandardCharsets.UTF_8))
+                    .templateBody(Files.readString(Paths.get("build/cdk-bootstrap.generated.yaml"), StandardCharsets.UTF_8))
                     .autoDeployment(CfnStackSet.AutoDeploymentProperty.builder()
                             .enabled(true)
                             .retainStacksOnAccountRemoval(false)
