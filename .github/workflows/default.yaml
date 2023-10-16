@@ -9,8 +9,8 @@ jobs:
       - name: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v4.0.1
         with:
-          role-to-assume: arn:aws:iam::779481764036:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHubAction-${{ github.run_id }}-${{ github.run_number }}
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions
+          role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
           aws-region: eu-west-1
       - name: sts-get-caller-identity
         run: aws sts get-caller-identity
@@ -26,7 +26,7 @@ jobs:
           cache: 'gradle'
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
-        run: cdk diff --security-only --fail | tee cdk-diff-security
+        run: cdk diff --security-only --fail Binsley | tee cdk-diff-security
         continue-on-error: true
       - uses: actions/upload-artifact@v3.1.3
         if: steps.cdk-permissions-broadening.outcome == 'failure'
@@ -34,7 +34,7 @@ jobs:
           name: cdk-diff-security
           path: cdk-diff-security
       - name: cdk-deploy
-        run: cdk deploy --all --require-approval never
+        run: cdk deploy --require-approval never Binsley
         if: success() || failure()
       - name: assume-test-runner-role
         uses: aws-actions/configure-aws-credentials@v4.0.1
