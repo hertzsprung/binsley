@@ -4,6 +4,7 @@ permissions:
   checks: write
 jobs:
   cdk-deploy-gradle-test:
+    environment: nonprod
     runs-on: ubuntu-22.04
     steps:
       - name: configure-aws-credentials
