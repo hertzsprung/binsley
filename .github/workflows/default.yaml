@@ -12,7 +12,9 @@ jobs:
         with:
           script: |
             if( ${{ vars.AWS_ACCOUNT_ID }} == "" ) {
-              core.setFailed('AWS_ACCOUNT_ID is unspecified')
+              core.setFailed("AWS_ACCOUNT_ID is unspecified")
+            } else {
+              core.info("AWS_ACCOUNT_ID is ${{ vars.AWS_ACCOUNT_ID }}")
             }
       - name: configure-aws-credentials
         uses: aws-actions/configure-aws-credentials@v4.0.1
