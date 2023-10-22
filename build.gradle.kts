@@ -28,7 +28,7 @@ dependencies {
     implementation("software.amazon.awscdk:aws-cdk-lib:2.100.0")
     implementation("software.constructs:constructs:10.3.0")
     implementation("io.github.cdklabs:cdk-stacksets:0.0.148")
-    implementation("com.pepperize:cdk-organizations:0.7.704")
+    implementation("com.pepperize:cdk-organizations:0.7.710")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
