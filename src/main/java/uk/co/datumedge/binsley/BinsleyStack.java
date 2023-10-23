@@ -29,7 +29,7 @@ public class BinsleyStack extends Stack {
                 .build();
 
 
-        IRole githubRole = Role.fromRoleName(this, "GitHubRole", "GitHubAction-AssumeRoleWithAction");
+        IRole githubRole = Role.fromRoleName(this, "GitHubRole", "GitHubActions");
 
         UserPool userPool = UserPool.Builder.create(this, "UserPool").build();
 

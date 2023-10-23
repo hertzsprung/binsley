@@ -22,8 +22,6 @@ jobs:
           role-to-assume: "arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions"
           role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
           aws-region: eu-west-1
-      - name: sts-get-caller-identity
-        run: aws sts get-caller-identity
       - name: npm-install-cdk
         run: npm install -g aws-cdk@2.102.0
       - name: checkout
