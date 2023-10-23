@@ -25,7 +25,7 @@ jobs:
       - name: npm-install-cdk
         run: npm install -g aws-cdk@2.102.0
       - name: checkout
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
       - name: setup-java
         uses: actions/setup-java@v3.13.0
         with:
