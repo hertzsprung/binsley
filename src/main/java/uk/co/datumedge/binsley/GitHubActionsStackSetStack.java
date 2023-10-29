@@ -27,8 +27,8 @@ public class GitHubActionsStackSetStack extends StackSetStack {
 
         var oidcPrincipal = new FederatedPrincipal(
                 openIdConnectProvider.getAttrArn(),
-                Map.of("StringEquals", Map.of(
-                        "token.actions.githubusercontent.com:sub", "repo:hertzsprung/binsley:ref:refs/heads/main",
+                Map.of("StringLike", Map.of(
+                        "token.actions.githubusercontent.com:sub", "repo:hertzsprung/binsley:*", // FIXME: this needs locking down so that each GitHub environment can access a specific account
                         "token.actions.githubusercontent.com:aud", "sts.amazonaws.com")),
                 "sts:AssumeRoleWithWebIdentity"
         );
