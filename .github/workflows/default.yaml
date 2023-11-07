@@ -23,7 +23,7 @@ jobs:
           role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
           aws-region: eu-west-1
       - name: npm-install-cdk
-        run: npm install -g aws-cdk@2.102.0
+        run: npm install -g aws-cdk@2.103.1
       - name: checkout
         uses: actions/checkout@v4.1.1
       - name: setup-java

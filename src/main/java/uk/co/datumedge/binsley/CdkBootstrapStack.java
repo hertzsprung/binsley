@@ -1,6 +1,5 @@
 package uk.co.datumedge.binsley;
 
-import io.github.cdklabs.cdk.stacksets.*;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.services.cloudformation.CfnStackSet;
 import software.amazon.awscdk.services.cloudformation.CfnStackSetProps;
@@ -12,28 +11,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
-public class GitHubActionsCdkBootstrapStack extends Stack {
-    public GitHubActionsCdkBootstrapStack(final Construct parent, final String id, final GitHubActionsCdkBootstrapStackProps props) {
+public class CdkBootstrapStack extends Stack {
+    public CdkBootstrapStack(final Construct parent, final String id, final CdkBootstrapStackProps props) {
         super(parent, id, props);
 
-        var stackSetStack = new GitHubActionsStackSetStack(this, "StackSets");
-
-        new StackSet(this, "StackSet", StackSetProps.builder()
-                .target(StackSetTarget.fromOrganizationalUnits(OrganizationsTargetOptions.builder()
-                        .organizationalUnits(props.getOrganizationalUnits())
-                        .regions(List.of("eu-west-1"))
-                        .build()))
-                .template(StackSetTemplate.fromStackSetStack(stackSetStack))
-                .deploymentType(DeploymentType.serviceManaged(ServiceManagedOptions.builder()
-                        .autoDeployEnabled(true)
-                        .autoDeployRetainStacks(false)
-                        .delegatedAdmin(false)
-                        .build()))
-                .capabilities(List.of(Capability.NAMED_IAM))
-                .build());
-
         try {
+            var trustedAccounts = Map.of(
+                    "parameterKey", "TrustedAccounts",
+                    "parameterValue", managementAccountId()
+            );
+
             new CfnStackSet(this, "CdkBootstrapStackSet", CfnStackSetProps.builder()
                     .stackSetName("CdkBootstrap")
                     .templateBody(Files.readString(Paths.get("build/cdk-bootstrap.generated.yaml"), StandardCharsets.UTF_8))
@@ -49,9 +38,14 @@ public class GitHubActionsCdkBootstrapStack extends Stack {
                                     .regions(List.of("eu-west-1"))
                             .build()))
                     .capabilities(List.of("CAPABILITY_NAMED_IAM"))
+                    .parameters(List.of(trustedAccounts))
                     .build());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private String managementAccountId() {
+        return (String) this.getNode().getContext("datumedge/managementAccountId");
     }
 }

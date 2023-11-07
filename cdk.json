@@ -15,6 +15,7 @@
   "context": {
     "datumedge/billing:alarmEmail": "js102@zepler.net",
     "datumedge/billing:monthlyUsdAlarmThreshold": 10,
+    "datumedge/managementAccountId": "779481764036",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": [

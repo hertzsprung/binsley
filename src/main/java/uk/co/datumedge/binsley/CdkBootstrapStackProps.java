@@ -5,14 +5,14 @@ import software.amazon.awscdk.StackProps;
 import java.util.List;
 import java.util.Objects;
 
-public class GitHubActionsCdkBootstrapStackProps implements StackProps {
+public class CdkBootstrapStackProps implements StackProps {
     private final List<String> organizationalUnits;
 
     static Builder builder() {
         return new Builder();
     }
 
-    private GitHubActionsCdkBootstrapStackProps(Builder builder) {
+    private CdkBootstrapStackProps(Builder builder) {
         this.organizationalUnits = Objects.requireNonNull(builder.organizationalUnits, "organizationalUnits is required");
     }
 
@@ -28,8 +28,8 @@ public class GitHubActionsCdkBootstrapStackProps implements StackProps {
             return this;
         }
 
-        public GitHubActionsCdkBootstrapStackProps build() {
-            return new GitHubActionsCdkBootstrapStackProps(this);
+        public CdkBootstrapStackProps build() {
+            return new CdkBootstrapStackProps(this);
         }
     }
 }
