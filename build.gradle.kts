@@ -29,7 +29,7 @@ dependencies {
     implementation("software.constructs:constructs:10.3.0")
     implementation("io.github.cdklabs:cdk-stacksets:0.0.148")
     implementation("com.pepperize:cdk-organizations:0.7.730")
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation(platform("org.junit:junit-bom:5.10.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(platform("org.assertj:assertj-bom:3.24.2"))
