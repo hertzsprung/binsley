@@ -18,11 +18,6 @@ public class CdkBootstrapStack extends Stack {
         super(parent, id, props);
 
         try {
-            var trustedAccounts = Map.of(
-                    "parameterKey", "TrustedAccounts",
-                    "parameterValue", managementAccountId()
-            );
-
             new CfnStackSet(this, "CdkBootstrapStackSet", CfnStackSetProps.builder()
                     .stackSetName("CdkBootstrap")
                     .templateBody(Files.readString(Paths.get("build/cdk-bootstrap.generated.yaml"), StandardCharsets.UTF_8))
@@ -38,11 +33,32 @@ public class CdkBootstrapStack extends Stack {
                                     .regions(List.of("eu-west-1"))
                             .build()))
                     .capabilities(List.of("CAPABILITY_NAMED_IAM"))
-                    .parameters(List.of(trustedAccounts))
+                    .parameters(List.of(trustedAccounts(), trustedAccountsForLookup(), cloudFormationExecutionPolicies()))
                     .build());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private Map<String, String> trustedAccounts() {
+        return Map.of(
+                "parameterKey", "TrustedAccounts",
+                "parameterValue", managementAccountId()
+        );
+    }
+
+    private Map<String, String> trustedAccountsForLookup() {
+        return Map.of(
+                "parameterKey", "TrustedAccountsForLookup",
+                "parameterValue", managementAccountId()
+        );
+    }
+
+    private static Map<String, String> cloudFormationExecutionPolicies() {
+        return Map.of(
+                "parameterKey", "CloudFormationExecutionPolicies",
+                "parameterValue", "arn:aws:iam::aws:policy/AdministratorAccess"
+        );
     }
 
     private String managementAccountId() {
