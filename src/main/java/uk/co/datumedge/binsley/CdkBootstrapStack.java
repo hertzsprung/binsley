@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CdkBootstrapStack extends Stack {
-    public CdkBootstrapStack(final Construct parent, final String id, final CdkBootstrapStackProps props) {
-        super(parent, id, props);
+    public CdkBootstrapStack(final Construct parent, final String id, final List<String> organizationalUnits) {
+        super(parent, id, null);
 
         try {
             new CfnStackSet(this, "CdkBootstrapStackSet", CfnStackSetProps.builder()
@@ -28,7 +28,7 @@ public class CdkBootstrapStack extends Stack {
                     .permissionModel("SERVICE_MANAGED")
                     .stackInstancesGroup(List.of(CfnStackSet.StackInstancesProperty.builder()
                                     .deploymentTargets(CfnStackSet.DeploymentTargetsProperty.builder()
-                                            .organizationalUnitIds(props.getOrganizationalUnits())
+                                            .organizationalUnitIds(List.copyOf(organizationalUnits))
                                             .build())
                                     .regions(List.of("eu-west-1"))
                             .build()))
