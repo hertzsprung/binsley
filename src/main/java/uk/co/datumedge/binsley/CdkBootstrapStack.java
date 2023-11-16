@@ -1,6 +1,7 @@
 package uk.co.datumedge.binsley;
 
 import software.amazon.awscdk.Stack;
+import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.cloudformation.CfnStackSet;
 import software.amazon.awscdk.services.cloudformation.CfnStackSetProps;
 import software.constructs.Construct;
@@ -13,9 +14,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Bootstraps the CDK for in all accounts belonging to the given Organizational Units, in the same region as this stack.
+ */
 public class CdkBootstrapStack extends Stack {
-    public CdkBootstrapStack(final Construct parent, final String id, final List<String> organizationalUnits) {
-        super(parent, id, null);
+    public CdkBootstrapStack(final Construct parent, final String id, final StackProps stackProps, final List<String> organizationalUnits) {
+        super(parent, id, stackProps);
 
         try {
             new CfnStackSet(this, "CdkBootstrapStackSet", CfnStackSetProps.builder()
@@ -30,7 +34,7 @@ public class CdkBootstrapStack extends Stack {
                                     .deploymentTargets(CfnStackSet.DeploymentTargetsProperty.builder()
                                             .organizationalUnitIds(List.copyOf(organizationalUnits))
                                             .build())
-                                    .regions(List.of("eu-west-1"))
+                                    .regions(List.of(getRegion()))
                             .build()))
                     .capabilities(List.of("CAPABILITY_NAMED_IAM"))
                     .parameters(List.of(trustedAccounts(), trustedAccountsForLookup(), cloudFormationExecutionPolicies()))

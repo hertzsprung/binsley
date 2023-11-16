@@ -11,10 +11,6 @@ import software.constructs.Construct;
 public class OrganizationStack extends Stack {
     private final OrganizationalUnit workloadsOU;
 
-    public OrganizationStack(final Construct parent, final String id) {
-        this(parent, id, null);
-    }
-
     public OrganizationStack(Construct parent, String id, StackProps props) {
         super(parent, id, props);
 
