@@ -30,7 +30,7 @@ jobs:
         uses: actions/setup-java@v3.13.0
         with:
           distribution: 'corretto'
-          java-version: '17'
+          java-version: '21'
           cache: 'gradle'
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
