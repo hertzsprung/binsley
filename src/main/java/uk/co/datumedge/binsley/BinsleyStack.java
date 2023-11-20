@@ -96,7 +96,7 @@ public class BinsleyStack extends Stack {
                 .assumedBy(new SessionTagsPrincipal(new AccountRootPrincipal()))
                 .build();
 
-        githubActionsRole.grantAssumeRole(testRunnerRole);
+        testRunnerRole.grantAssumeRole(githubActionsRole);
 
         apiBaseUrl.grantRead(testRunnerRole);
         userPool.grant(testRunnerRole, "cognito-idp:DescribeUserPoolClient");
