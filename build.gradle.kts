@@ -6,7 +6,7 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
         vendor.set(JvmVendorSpec.AMAZON)
     }
 }
@@ -37,9 +37,11 @@ dependencies {
     testImplementation("org.assertj:assertj-core")
     testImplementation(platform("software.amazon.awssdk:bom:2.21.22"))
     testImplementation("software.amazon.awssdk:cognitoidentityprovider")
+    testImplementation("software.amazon.awssdk:iam")
     testImplementation("software.amazon.awssdk:ssm")
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
+    testImplementation("software.amazon.awssdk:sts")
     testImplementation("com.fasterxml.jackson.core:jackson-databind")
 }
 

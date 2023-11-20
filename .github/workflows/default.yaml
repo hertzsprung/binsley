@@ -23,7 +23,7 @@ jobs:
           role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
           aws-region: eu-west-1
       - name: npm-install-cdk
-        run: npm install -g aws-cdk@2.109.0
+        run: npm install -g aws-cdk@2.110.0
       - name: checkout
         uses: actions/checkout@v4.1.1
       - name: setup-java
@@ -46,12 +46,6 @@ jobs:
       - name: cdk-deploy
         run: cdk deploy --require-approval never Binsley
         if: steps.cdk-diff-security.outcome == 'success' || steps.cdk-diff-security.outcome == 'failure' || steps.cdk-diff-security.outcome == 'skipped'
-      - name: assume-test-runner-role
-        uses: aws-actions/configure-aws-credentials@v4.0.1
-        with:
-          role-to-assume: BinsleyTestRunner
-          role-chaining: true
-          aws-region: eu-west-1
       - name: gradle-test
         run: ./gradlew test
       - name: test-report
