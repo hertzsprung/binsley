@@ -47,6 +47,7 @@ jobs:
         run: cdk deploy --require-approval never Binsley
         if: steps.cdk-diff-security.outcome == 'success' || steps.cdk-diff-security.outcome == 'failure' || steps.cdk-diff-security.outcome == 'skipped'
       - name: gradle-test
+        id: gradle-test
         run: ./gradlew test
       - name: test-report
         uses: mikepenz/action-junit-report@v4.0.3
