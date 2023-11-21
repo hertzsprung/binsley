@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.11")
-    implementation("software.amazon.awscdk:aws-cdk-lib:2.107.0")
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.110.0")
     implementation("software.constructs:constructs:10.3.0")
     implementation("io.github.cdklabs:cdk-pipelines-github:0.4.105")
     implementation("io.github.cdklabs:cdk-stacksets:0.0.149")
