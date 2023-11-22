@@ -27,10 +27,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ApiTest {
     @Test
     void test() throws IOException, InterruptedException {
-        try (IamClient iam = IamClient.builder().build();
-             StsClient sts = StsClient.create()) {
-            Role testRunnerRole = iam.getRole(b -> b.roleName("BinsleyTestRunner")).role();
-            Credentials credentials = sts.assumeRole(b -> b.roleArn(testRunnerRole.arn()).roleSessionName("BinsleyTestRun")).credentials();
+        try (StsClient sts = StsClient.create()) {
+            String accountId = sts.getCallerIdentity().account();
+            Credentials credentials = sts.assumeRole(b -> b
+                    .roleArn("arn:aws:iam::%s:role/BinsleyTestRunner".formatted(accountId))
+                    .roleSessionName("BinsleyTestRun")).credentials();
             var sessionCredentials = AwsSessionCredentials.create(credentials.accessKeyId(), credentials.secretAccessKey(), credentials.sessionToken());
             var credentialsProvider = StaticCredentialsProvider.create(sessionCredentials);
 
