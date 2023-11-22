@@ -19,10 +19,11 @@ curl -L \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/hertzsprung/binsley/environments/nonprod \
+  https://api.github.com/repos/hertzsprung/binsley/environments/test \
   -d "$request"
 ```
 
+Using a token with Environment Read & Write Repository Permissions:
 ```shell
 export variables=$(cat <<EOF
 {
@@ -31,15 +32,12 @@ export variables=$(cat <<EOF
 }
 EOF
 )
-```
 
-Using a token with Environment Read & Write Repository Permissions:
-```shell
 curl -L \
   -X POST \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repositories/$REPOSITORY_ID/environments/nonprod/variables \
+  https://api.github.com/repositories/$REPOSITORY_ID/environments/test/variables \
   -d "$variables"
 ```

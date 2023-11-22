@@ -4,7 +4,7 @@ permissions:
   checks: write
 jobs:
   cdk-deploy-gradle-test:
-    environment: nonprod
+    environment: test
     runs-on: ubuntu-22.04
     steps:
       - name: check-aws-account-id
