@@ -22,9 +22,9 @@ public final class BinsleyApp {
                 .env(Environment.builder().account(managementAccountId()).region("us-east-1").build())
                 .build());
 
-        new GitHubActionsStack(app, "GitHubActions-nonprod", StackProps.builder()
+        new GitHubActionsStack(app, "GitHubActions-test", StackProps.builder()
                 .env(Environment.builder().account(nonprodAccountId()).build())
-                .build(), "nonprod");
+                .build(), "test");
 
         new BinsleyStack(app, "Binsley");
 
