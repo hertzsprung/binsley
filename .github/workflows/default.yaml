@@ -46,11 +46,7 @@ jobs:
       - name: cdk-deploy
         run: cdk deploy --require-approval never Binsley
         if: ${{ !cancelled() && (steps.cdk-diff-security.outcome == 'success' || steps.cdk-diff-security.outcome == 'failure' || steps.cdk-diff-security.outcome == 'skipped') }}
-      - name: gradle-test
-        id: gradle-test
-        run: ./gradlew test
-      - name: test-report
-        uses: mikepenz/action-junit-report@v4.0.3
-        if: ${{ !cancelled() && (steps.gradle-test.outcome == 'success' || steps.gradle-test.outcome == 'failure') }}
-        with:
-          report_paths: 'build/test-results/test/TEST-*.xml'
+  test:
+    uses: ./.github/workflows/test.yaml
+    with:
+      environment: ${{ github.deployment.environment }}

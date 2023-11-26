@@ -1,0 +1,26 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: string
+        required: true
+        default: test
+        description: "GitHub Actions deployment environment"
+jobs:
+  test:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-22.04
+    steps:
+    - name: gradle-test
+      id: gradle-test
+      run: ./gradlew test
+    - name: test-report
+      uses: mikepenz/action-junit-report@v4.0.3
+      if: ${{ !cancelled() && (steps.gradle-test.outcome == 'success' || steps.gradle-test.outcome == 'failure') }}
+      with:
+        report_paths: 'build/test-results/test/TEST-*.xml'
