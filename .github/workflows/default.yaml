@@ -3,7 +3,7 @@ permissions:
   id-token: write
   checks: write
 jobs:
-  cdk-deploy-gradle-test:
+  cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
     steps:
@@ -48,5 +48,6 @@ jobs:
         if: ${{ !cancelled() && (steps.cdk-diff-security.outcome == 'success' || steps.cdk-diff-security.outcome == 'failure' || steps.cdk-diff-security.outcome == 'skipped') }}
   test:
     uses: ./.github/workflows/test.yaml
+    needs: cdk-deploy
     with:
       environment: ${{ github.deployment.environment }}
