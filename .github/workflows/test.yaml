@@ -16,6 +16,14 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-22.04
     steps:
+    - name: checkout
+      uses: actions/checkout@v4.1.1
+    - name: setup-java
+      uses: actions/setup-java@v3.13.0
+      with:
+        distribution: 'corretto'
+        java-version: '21'
+        cache: 'gradle'
     - name: gradle-test
       id: gradle-test
       run: ./gradlew test
