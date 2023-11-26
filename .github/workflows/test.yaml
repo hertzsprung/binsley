@@ -11,6 +11,9 @@ on:
         required: true
         default: test
         description: "GitHub Actions deployment environment"
+    permissions:
+      id-token: write
+      checks: write
 jobs:
   test:
     environment: ${{ inputs.environment }}
@@ -24,6 +27,12 @@ jobs:
         distribution: 'corretto'
         java-version: '21'
         cache: 'gradle'
+    - name: configure-aws-credentials
+      uses: aws-actions/configure-aws-credentials@v4.0.1
+      with:
+        role-to-assume: "arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions"
+        role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
+        aws-region: eu-west-1
     - name: gradle-test
       id: gradle-test
       run: ./gradlew test
