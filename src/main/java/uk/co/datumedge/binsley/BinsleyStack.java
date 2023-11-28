@@ -28,7 +28,7 @@ public class BinsleyStack extends Stack {
                 .code(Code.fromAsset("src/main/resources/GetStartedLambdaProxyIntegration/"))
                 .build();
 
-        var githubActionsRole = Role.fromRoleName(this, "GitHubRole", "GitHubActions");
+        Role.fromRoleName(this, "GitHubRole", "GitHubActions");
 
         var userPool = UserPool.Builder.create(this, "UserPool").build();
 
@@ -95,8 +95,6 @@ public class BinsleyStack extends Stack {
                 .roleName("BinsleyTestRunner")
                 .assumedBy(new SessionTagsPrincipal(new AccountRootPrincipal()))
                 .build();
-
-        testRunnerRole.grantAssumeRole(githubActionsRole);
 
         apiBaseUrl.grantRead(testRunnerRole);
         userPool.grant(testRunnerRole, "cognito-idp:DescribeUserPoolClient");
