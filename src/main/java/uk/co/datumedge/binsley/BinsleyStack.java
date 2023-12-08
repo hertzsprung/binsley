@@ -4,9 +4,7 @@ import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.apigateway.*;
 import software.amazon.awscdk.services.cognito.*;
-import software.amazon.awscdk.services.iam.AccountRootPrincipal;
-import software.amazon.awscdk.services.iam.Role;
-import software.amazon.awscdk.services.iam.SessionTagsPrincipal;
+import software.amazon.awscdk.services.iam.*;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
@@ -16,6 +14,8 @@ import software.constructs.Construct;
 import java.util.List;
 
 public class BinsleyStack extends Stack {
+    static final String ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME = "AssumeBinsleyTestRunnerRole";
+
     public BinsleyStack(final Construct parent, final String id) {
         this(parent, id, null);
     }
@@ -27,8 +27,6 @@ public class BinsleyStack extends Stack {
                 .handler("index.handler")
                 .code(Code.fromAsset("src/main/resources/GetStartedLambdaProxyIntegration/"))
                 .build();
-
-        Role.fromRoleName(this, "GitHubRole", "GitHubActions");
 
         var userPool = UserPool.Builder.create(this, "UserPool").build();
 
@@ -101,5 +99,13 @@ public class BinsleyStack extends Stack {
         userPoolId.grantRead(testRunnerRole);
         userPoolClientId.grantRead(testRunnerRole);
         userPoolDomainBaseUrl.grantRead(testRunnerRole);
+
+        ManagedPolicy.Builder.create(this, ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME)
+                .managedPolicyName("AssumeBinsleyTestRunnerRole")
+                .statements(List.of(PolicyStatement.Builder.create()
+                        .actions(List.of("sts:AssumeRole"))
+                        .resources(List.of(testRunnerRole.getRoleArn()))
+                        .build()))
+                .build();
     }
 }

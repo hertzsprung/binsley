@@ -17,6 +17,7 @@
     "datumedge/billing:monthlyUsdAlarmThreshold": 10,
     "datumedge/managementAccountId": "779481764036",
     "datumedge/nonprodAccountId": "074782343366",
+    "datumedge/ssoInstanceArn": "arn:aws:sso:::instance/ssoins-6804c21b2558a811",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": [

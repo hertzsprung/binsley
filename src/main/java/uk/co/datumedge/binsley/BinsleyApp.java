@@ -17,7 +17,10 @@ public final class BinsleyApp {
         this.app = new App();
 
         var organization = new OrganizationStack(app, "Organization", managementAccountStackProps());
-        new CdkBootstrapStack(app, "CdkBootstrap", managementAccountStackProps(), List.of(organization.getWorkloadsOUId()));
+
+        new ResourceExplorerStack(app, "ResourceExplorer", managementAccountStackProps(), organization.nonProdOU());
+
+        new CdkBootstrapStack(app, "CdkBootstrap", managementAccountStackProps(), List.of(organization.workloadsOUId()));
         new BillingStack(app, "Billing", StackProps.builder()
                 .env(Environment.builder().account(managementAccountId()).region("us-east-1").build())
                 .build());
@@ -27,6 +30,7 @@ public final class BinsleyApp {
                 .build(), "test");
 
         new BinsleyStack(app, "Binsley");
+        new SsoStack(app, "SSO", managementAccountStackProps());
 
         app.synth();
     }

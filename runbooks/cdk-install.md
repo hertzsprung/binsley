@@ -1,5 +1,6 @@
 Based on [AWS CDK documentation][cdk-docs].
 
+Replace versions with latest node LTS version and latest aws-cdk version:
 ```
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - # https://askubuntu.com/a/548776
 sudo apt-get install -y nodejs
