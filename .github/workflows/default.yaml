@@ -38,7 +38,7 @@ jobs:
         continue-on-error: true
       - name: cdk-diff-security
         id: cdk-diff-security
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.0.0
         if: ${{ !cancelled() && steps.cdk-permissions-broadening.outcome == 'failure' }}
         with:
           name: cdk-diff-security
