@@ -27,7 +27,7 @@ public class SsoStack extends Stack {
                 .principalType("GROUP")
                 .principalId("12b5c4a4-20e1-701d-bf20-b287b27f743c")
                 .targetType("AWS_ACCOUNT")
-                .targetId(nonprodAccountId())
+                .targetId(binsleyTestAccountId())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class SsoStack extends Stack {
         return (String) getNode().getContext("datumedge/ssoInstanceArn");
     }
 
-    private String nonprodAccountId() {
-        return (String) getNode().getContext("datumedge/nonprodAccountId");
+    private String binsleyTestAccountId() {
+        return (String) getNode().getContext("datumedge/binsley/testAccountId");
     }
 }

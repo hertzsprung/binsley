@@ -26,7 +26,7 @@ public final class BinsleyApp {
                 .build());
 
         new GitHubActionsStack(app, "GitHubActions-test", StackProps.builder()
-                .env(Environment.builder().account(nonprodAccountId()).build())
+                .env(Environment.builder().account(binsleyTestAccountId()).build())
                 .build(), "test");
 
         new BinsleyStack(app, "Binsley");
@@ -45,7 +45,7 @@ public final class BinsleyApp {
         return (String) app.getNode().getContext("datumedge/managementAccountId");
     }
 
-    private String nonprodAccountId() {
-        return (String) app.getNode().getContext("datumedge/nonprodAccountId");
+    private String binsleyTestAccountId() {
+        return (String) app.getNode().getContext("datumedge/binsley/testAccountId");
     }
 }
