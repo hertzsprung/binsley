@@ -1,4 +1,12 @@
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - *
+  schedule:
+    - cron: 30 7 * * 0
 permissions:
   id-token: write
   checks: write
