@@ -18,7 +18,7 @@ public final class BinsleyApp {
 
         var organization = new OrganizationStack(app, "Organization", managementAccountStackProps());
 
-        new ResourceExplorerStack(app, "ResourceExplorer", managementAccountStackProps(), organization.nonProdOU());
+        new ResourceExplorerStack(app, "ResourceExplorer", managementAccountStackProps(), organization.nonProdOU(), organization.sandboxOU());
 
         new CdkBootstrapStack(app, "CdkBootstrap", managementAccountStackProps(), List.of(organization.workloadsOUId()));
         new BillingStack(app, "Billing", StackProps.builder()

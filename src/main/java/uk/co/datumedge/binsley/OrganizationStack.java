@@ -14,6 +14,7 @@ import software.constructs.Construct;
 public class OrganizationStack extends Stack {
     private final OrganizationalUnit workloadsOU;
     private final OrganizationalUnit nonProdOU;
+    private final OrganizationalUnit sandboxOU;
 
     public OrganizationStack(Construct parent, String id, StackProps props) {
         super(parent, id, props);
@@ -35,7 +36,7 @@ public class OrganizationStack extends Stack {
                 .parent(workloadsOU)
                 .build();
 
-        OrganizationalUnit.Builder.create(this, "SandboxOU")
+        sandboxOU = OrganizationalUnit.Builder.create(this, "SandboxOU")
                 .organizationalUnitName("Sandbox")
                 .parent(organization.getRoot())
                 .build();
@@ -47,5 +48,9 @@ public class OrganizationStack extends Stack {
 
     public OrganizationalUnit nonProdOU() {
         return nonProdOU;
+    }
+
+    public OrganizationalUnit sandboxOU() {
+        return sandboxOU;
     }
 }
