@@ -34,12 +34,7 @@ jobs:
         run: npm install -g aws-cdk@2.117.0
       - name: checkout
         uses: actions/checkout@v4.1.1
-      - name: setup-java
-        uses: actions/setup-java@v4.0.0
-        with:
-          distribution: 'corretto'
-          java-version: '21'
-          cache: 'gradle'
+      - uses: hertzsprung/binsley/actions/setup-java@main
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
         run: cdk diff --security-only --fail Binsley > cdk-diff-security

@@ -1,0 +1,11 @@
+name: setup-java
+description: "Setup Amazon Corretto 21"
+runs:
+  using: composite
+  steps:
+    - name: setup-java
+      uses: actions/setup-java@v4.0.0
+      with:
+        distribution: 'corretto'
+        java-version: '21'
+        cache: 'gradle'
