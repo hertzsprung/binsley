@@ -24,7 +24,7 @@ jobs:
     - name: setup-java
       uses: hertzsprung/binsley/actions/setup-java@main
     - name: aws-assume-role
-      uses: hertzsprung/binsley/actions/aws-assume-role
+      uses: hertzsprung/binsley/actions/aws-assume-role@main
     - name: gradle-test
       id: gradle-test
       run: ./gradlew test
