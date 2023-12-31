@@ -1,10 +1,14 @@
 name: aws-assume-role
-description: Assume the GitHubActions AWS IAM role in the environment's AWS_ACCOUNT_ID
+description: Assume the GitHubActions IAM role in an AWS account
+inputs:
+  account-id:
+    required: true
+    description: AWS account ID
 runs:
   using: composite
   steps:
     - uses: aws-actions/configure-aws-credentials@v4.0.1
       with:
-        role-to-assume: "arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions"
+        role-to-assume: "arn:aws:iam::${{ inputs.account-id }}:role/GitHubActions"
         role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
         aws-region: eu-west-1

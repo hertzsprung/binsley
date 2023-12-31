@@ -25,6 +25,8 @@ jobs:
       uses: hertzsprung/binsley/actions/setup-java@main
     - name: aws-assume-role
       uses: hertzsprung/binsley/actions/aws-assume-role@main
+      with:
+        account-id: ${{ vars.AWS_ACCOUNT_ID }}
     - name: gradle-test
       id: gradle-test
       run: ./gradlew test

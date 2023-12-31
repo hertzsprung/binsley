@@ -26,6 +26,8 @@ jobs:
             }
       - name: aws-assume-role
         uses: hertzsprung/binsley/actions/aws-assume-role@main
+        with:
+          account-id: ${{ vars.AWS_ACCOUNT_ID }}
       - name: npm-install-cdk
         run: npm install -g aws-cdk@2.117.0
       - name: checkout
