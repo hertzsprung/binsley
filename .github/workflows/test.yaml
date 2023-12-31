@@ -21,13 +21,10 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v4.1.1
-    - uses: hertzsprung/binsley/actions/setup-java@main
-    - name: configure-aws-credentials
-      uses: aws-actions/configure-aws-credentials@v4.0.1
-      with:
-        role-to-assume: "arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/GitHubActions"
-        role-session-name: GitHubActions-${{ github.run_id }}-${{ github.run_number }}
-        aws-region: eu-west-1
+    - name: setup-java
+      uses: hertzsprung/binsley/actions/setup-java@main
+    - name: aws-assume-role
+      uses: hertzsprung/binsley/actions/aws-assume-role
     - name: gradle-test
       id: gradle-test
       run: ./gradlew test
