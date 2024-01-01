@@ -33,7 +33,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation(platform("org.assertj:assertj-bom:3.24.2"))
+    testImplementation(platform("org.assertj:assertj-bom:3.25.0"))
     testImplementation("org.assertj:assertj-core")
     testImplementation(platform("software.amazon.awssdk:bom:2.22.5"))
     testImplementation("software.amazon.awssdk:cognitoidentityprovider")
