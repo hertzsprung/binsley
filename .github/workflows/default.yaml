@@ -5,7 +5,7 @@ on:
         type: boolean
         required: true
         default: false
-        description: 'Whether to forces an immediate rollback'
+        description: 'Force an immediate rollback'
   push:
     branches:
       - main
