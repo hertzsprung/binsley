@@ -16,7 +16,8 @@ on:
 permissions:
   id-token: write
   checks: write
-  contents: write
+  contents: write # for rollback
+  actions: write # for rollback of GitHub actions workflows
 jobs:
   cdk-deploy:
     environment: test
