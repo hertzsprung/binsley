@@ -17,6 +17,9 @@ permissions:
   id-token: write
   checks: write
   contents: write # for rollback
+concurrency:
+  group: default
+  cancel-in-progress: false
 jobs:
   cdk-deploy:
     environment: test
