@@ -80,4 +80,4 @@ jobs:
           git checkout main
           git reset --hard HEAD~1
           git push origin main --force
-          git push --upstream origin $branch_name
+          git push --set-upstream origin $branch_name
