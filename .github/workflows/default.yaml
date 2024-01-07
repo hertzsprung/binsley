@@ -11,6 +11,8 @@ on:
       - main
     tags-ignore:
       - '*'
+    paths:
+      - '!decisions/**'
   schedule:
     - cron: '30 7 * * 0'
 permissions:
