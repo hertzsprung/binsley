@@ -31,7 +31,7 @@ jobs:
       id: gradle-test
       run: ./gradlew test
     - name: test-report
-      uses: mikepenz/action-junit-report@v4.0.3
+      uses: mikepenz/action-junit-report@v4.0.4
       if: ${{ !cancelled() && (steps.gradle-test.outcome == 'success' || steps.gradle-test.outcome == 'failure') }}
       with:
         report_paths: 'build/test-results/test/TEST-*.xml'
