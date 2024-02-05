@@ -29,7 +29,7 @@ dependencies {
     implementation("software.constructs:constructs:10.3.0")
     implementation("io.github.cdklabs:cdk-pipelines-github:0.4.107")
     implementation("io.github.cdklabs:cdk-stacksets:0.0.149")
-    implementation("com.pepperize:cdk-organizations:0.7.794")
+    implementation("com.pepperize:cdk-organizations:0.7.813")
     testImplementation(platform("org.junit:junit-bom:5.10.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
