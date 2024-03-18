@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: checkout
-      uses: actions/checkout@v4.1.1
+      uses: actions/checkout@v4.1.2
     - name: setup-java
       uses: hertzsprung/binsley/actions/setup-java@main
     - name: aws-assume-role
