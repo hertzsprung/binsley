@@ -30,7 +30,7 @@ dependencies {
     implementation("io.github.cdklabs:cdk-pipelines-github:0.4.115")
     implementation("io.github.cdklabs:cdk-stacksets:0.0.150")
     implementation("com.pepperize:cdk-organizations:0.7.874")
-    testImplementation(platform("org.junit:junit-bom:5.10.1"))
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(platform("org.assertj:assertj-bom:3.25.3"))
