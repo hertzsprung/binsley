@@ -46,7 +46,7 @@ jobs:
       - name: npm-install-cdk
         run: npm install -g aws-cdk@2.117.0
       - name: checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.2
       - name: setup-java
         uses: hertzsprung/binsley/actions/setup-java@main
       - name: cdk-permissions-broadening
@@ -74,7 +74,7 @@ jobs:
     if: ${{ !cancelled() && contains(needs.*.result, 'failure') }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.2
         with:
           fetch-depth: 2
       - name: rollback
