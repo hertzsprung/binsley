@@ -2,6 +2,7 @@ on:
   workflow_dispatch:
     inputs:
       onRollback:
+        type: boolean
         required: true
         default: false
         description: "Whether the workflow was triggered on rollback"
@@ -10,4 +11,4 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: echo
-        run: "echo auto-run-check (on_rollback: ${{ github.event.inputs.onRollback }})"
+        run: "echo auto-run-check on_rollback: ${{ github.event.inputs.onRollback }}"
