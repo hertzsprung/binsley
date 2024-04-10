@@ -12,3 +12,6 @@ jobs:
     steps:
       - name: echo
         run: "echo auto-run-check on_rollback: ${{ github.event.inputs.onRollback }}"
+      - name: gh-workflow-run
+        run: gh workflow run auto-run-check.yaml -f onRollback=true
+        if: ${{ !inputs.onRollback }}
