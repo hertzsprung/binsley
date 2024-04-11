@@ -6,6 +6,8 @@ on:
         required: true
         default: false
         description: "Whether the workflow was triggered on rollback"
+permissions:
+  actions: write
 jobs:
   echo:
     runs-on: ubuntu-22.04
