@@ -22,7 +22,8 @@ on:
 permissions:
   id-token: write
   checks: write
-  contents: write # for rollback
+  contents: write # for git rollback
+  actions: write # for rollback workflow run
 concurrency:
   group: default
   cancel-in-progress: false
