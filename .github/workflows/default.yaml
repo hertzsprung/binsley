@@ -96,6 +96,6 @@ jobs:
       - name: gh-workflow-run
         if: ${{ !inputs.on_rollback }}
         shell: bash
-        run: gh workflow run auto-run.manual-test.yaml -f on_rollback=true # prevent cascading rollbacks
+        run: gh workflow run default.yaml -f on_rollback=true # prevent cascading rollbacks
         env:
           GH_TOKEN: ${{ github.token }}
