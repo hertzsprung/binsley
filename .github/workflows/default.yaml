@@ -1,11 +1,16 @@
 on:
   workflow_dispatch:
     inputs:
-      force-rollback:
+      force_rollback:
         type: boolean
         required: true
         default: false
         description: 'Force an immediate rollback'
+      on_rollback:
+        type: boolean
+        required: true
+        default: false
+        description: 'Whether the workflow was triggered on rollback'
   push:
     branches:
       - main
@@ -30,7 +35,7 @@ jobs:
         run: |
           echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
           false
-        if: ${{ inputs.force-rollback }}
+        if: ${{ inputs.force_rollback }}
       - name: check-aws-account-id
         uses: actions/github-script@v7.0.1
         with:
@@ -78,7 +83,7 @@ jobs:
         uses: actions/checkout@v4.1.2
         with:
           fetch-depth: 2
-      - name: rollback
+      - name: git-rollback
         shell: bash
         run: |
           branch_name="rollback-$(printf '%(%Y-%m-%d_%H.%M.%S)T\n')"
@@ -87,3 +92,9 @@ jobs:
           git reset --hard HEAD~1
           git push origin main --force
           git push --set-upstream origin $branch_name
+      - name: gh-workflow-run
+        if: ${{ !inputs.on_rollback }}
+        shell: bash
+        run: gh workflow run auto-run.manual-test.yaml -f on_rollback=true # prevent cascading rollbacks
+        env:
+          GH_TOKEN: ${{ github.token }}
