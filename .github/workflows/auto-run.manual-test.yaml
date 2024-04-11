@@ -17,7 +17,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4.1.2
       - name: gh-workflow-run
-        run: gh workflow run auto-run-check.yaml -f onRollback=true
+        run: gh workflow run auto-run.manual-test.yaml -f onRollback=true
         env:
           GH_TOKEN: ${{ github.token }}
         if: ${{ !inputs.onRollback }}

@@ -11,7 +11,7 @@ on:
       - main
     paths-ignore:
       - 'decisions/**'
-      - '.github/workflows/manual-test/**'
+      - '.github/workflows/*.manual-test.yaml'
   schedule:
     - cron: '30 7 * * 0'
 permissions:
