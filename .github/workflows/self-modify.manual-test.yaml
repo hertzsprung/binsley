@@ -5,6 +5,8 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4.1.2
+        with:
+          token: ${{ secrets.ROLLBACK_TOKEN }}
       - name: git-push
         run: |
           echo "#" >> .github/workflows/self-modify.manual-test.yaml
