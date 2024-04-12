@@ -6,11 +6,11 @@ on:
         required: true
         default: false
         description: 'Force an immediate rollback'
-      on_rollback:
+      prevent_rollback:
         type: boolean
         required: true
         default: false
-        description: 'Whether the workflow was triggered on rollback'
+        description: 'Prevent rollback on workflow failure'
   push:
     branches:
       - main
@@ -78,7 +78,7 @@ jobs:
   rollback:
     runs-on: ubuntu-22.04
     needs: [cdk-deploy, test]
-    if: ${{ !cancelled() && contains(needs.*.result, 'failure') }}
+    if: ${{ !cancelled() && contains(needs.*.result, 'failure') && !inputs.prevent_rollback }}
     steps:
       - name: checkout
         uses: actions/checkout@v4.1.2
@@ -94,8 +94,7 @@ jobs:
           git push origin main --force
           git push --set-upstream origin $branch_name
       - name: gh-workflow-run
-        if: ${{ !inputs.on_rollback }}
         shell: bash
-        run: gh workflow run default.yaml -f on_rollback=true # prevent cascading rollbacks
+        run: gh workflow run default.yaml -f prevent_rollback=true
         env:
           GH_TOKEN: ${{ github.token }}
