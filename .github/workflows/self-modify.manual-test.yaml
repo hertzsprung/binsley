@@ -11,10 +11,9 @@ jobs:
         run: |
           echo "#" >> .github/workflows/self-modify.manual-test.yaml
           git config user.name 'Binsley GitHub Actions'
-          git config user.email 'binsley@users.noreply.github.com'
+          git config user.email 'hertzsprung+binsley@users.noreply.github.com'
           git add .github/workflows/self-modify.manual-test.yaml
           git commit -m "self-modify.manual-test.yaml"
           git push origin main
         env:
           GH_TOKEN: ${{ secrets.ROLLBACK_TOKEN }}
-#
