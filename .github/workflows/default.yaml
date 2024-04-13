@@ -32,6 +32,9 @@ jobs:
     environment: test
     runs-on: ubuntu-22.04
     steps:
+      - name: test-rollback-workflow
+        run: |
+          false
       - name: force-rollback
         run: |
           echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
