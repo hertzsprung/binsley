@@ -15,3 +15,4 @@ jobs:
           git add .github/workflows/self-modify.manual-test.yaml
           git commit -m "self-modify.manual-test.yaml"
           git push origin main
+#
