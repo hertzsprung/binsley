@@ -84,10 +84,13 @@ jobs:
         uses: actions/checkout@v4.1.2
         with:
           fetch-depth: 2
+          token: ${{ secrets.ROLLBACK_TOKEN }}
       - name: git-rollback
         shell: bash
         run: |
           branch_name="rollback-$(printf '%(%Y-%m-%d_%H.%M.%S)T\n')"
+          git config user.name 'Binsley GitHub Actions'
+          git config user.email 'hertzsprung+binsley@users.noreply.github.com'
           git branch $branch_name
           git checkout main
           git reset --hard HEAD~1
