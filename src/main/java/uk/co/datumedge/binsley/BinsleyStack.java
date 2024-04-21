@@ -13,8 +13,9 @@ import software.constructs.Construct;
 
 import java.util.List;
 
+import static uk.co.datumedge.binsley.organization.SsoStack.ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME;
+
 public class BinsleyStack extends Stack {
-    static final String ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME = "AssumeBinsleyTestRunnerRole";
 
     public BinsleyStack(final Construct parent, final String id) {
         this(parent, id, null);

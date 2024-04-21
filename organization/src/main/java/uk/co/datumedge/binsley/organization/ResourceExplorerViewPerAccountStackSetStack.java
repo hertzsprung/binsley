@@ -1,4 +1,4 @@
-package uk.co.datumedge.binsley;
+package uk.co.datumedge.binsley.organization;
 
 import io.github.cdklabs.cdk.stacksets.StackSetStack;
 import io.github.cdklabs.cdk.stacksets.StackSetStackProps;

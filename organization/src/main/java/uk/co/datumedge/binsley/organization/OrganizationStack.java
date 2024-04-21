@@ -1,4 +1,4 @@
-package uk.co.datumedge.binsley;
+package uk.co.datumedge.binsley.organization;
 
 import com.pepperize.cdk.organizations.Organization;
 import com.pepperize.cdk.organizations.OrganizationalUnit;
@@ -46,11 +46,16 @@ public class OrganizationStack extends Stack {
         return workloadsOU.getOrganizationalUnitId();
     }
 
-    public OrganizationalUnit nonProdOU() {
-        return nonProdOU;
+    public uk.co.datumedge.binsley.organization.OrganizationalUnit nonProdOU() {
+        return convert(nonProdOU);
     }
 
-    public OrganizationalUnit sandboxOU() {
-        return sandboxOU;
+    public uk.co.datumedge.binsley.organization.OrganizationalUnit sandboxOU() {
+        return convert(sandboxOU);
+    }
+
+    private static uk.co.datumedge.binsley.organization.OrganizationalUnit convert(OrganizationalUnit ou) {
+        return new uk.co.datumedge.binsley.organization.OrganizationalUnit(ou.getOrganizationalUnitId(), ou.getOrganizationalUnitArn());
+
     }
 }

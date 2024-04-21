@@ -1,6 +1,5 @@
-package uk.co.datumedge.binsley;
+package uk.co.datumedge.binsley.organization;
 
-import com.pepperize.cdk.organizations.OrganizationalUnit;
 import io.github.cdklabs.cdk.stacksets.*;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -20,7 +19,7 @@ public class ResourceExplorerStack extends Stack {
 
         new StackSet(this, "NonProdOUStackSet", StackSetProps.builder()
                 .target(StackSetTarget.fromOrganizationalUnits(OrganizationsTargetOptions.builder()
-                        .organizationalUnits(List.of(nonProdOU.getOrganizationalUnitId()))
+                        .organizationalUnits(List.of(nonProdOU.id()))
                         .regions(List.of(getRegion()))
                         .build()))
                 .template(StackSetTemplate.fromStackSetStack(viewPerAccountStackSet))
@@ -33,7 +32,7 @@ public class ResourceExplorerStack extends Stack {
 
         StackSet sandboxStackSet = new StackSet(this, "SandboxStackSet", StackSetProps.builder()
                 .target(StackSetTarget.fromOrganizationalUnits(OrganizationsTargetOptions.builder()
-                        .organizationalUnits(List.of(sandboxOU.getOrganizationalUnitId()))
+                        .organizationalUnits(List.of(sandboxOU.id()))
                         .regions(List.of(getRegion()))
                         .build()))
                 .template(StackSetTemplate.fromStackSetStack(viewPerOUStackSet))
@@ -46,7 +45,7 @@ public class ResourceExplorerStack extends Stack {
 
         CfnView sandboxOUView = CfnView.Builder.create(this, "ResourceExplorerSandboxOUView")
                 .viewName("SandboxOU")
-                .scope(sandboxOU.getOrganizationalUnitArn())
+                .scope(sandboxOU.arn())
                 .build();
 
         sandboxOUView.getNode().addDependency(sandboxStackSet);
@@ -55,13 +54,13 @@ public class ResourceExplorerStack extends Stack {
                 .name("ResourceExplorerSandboxOUShare")
                 .resourceArns(List.of(sandboxOUView.getAttrViewArn()))
                 .permissionArns(List.of("arn:aws:ram::aws:permission/AWSRAMPermissionResourceExplorerViews"))
-                .principals(List.of(sandboxOU.getOrganizationalUnitArn()))
+                .principals(List.of(sandboxOU.arn()))
                 .allowExternalPrincipals(false)
                 .build();
 
         StackSet sandboxDefaultViewAssociationStackSet = new StackSet(this, "SandboxDefaultViewAssociationStackSet", StackSetProps.builder()
                 .target(StackSetTarget.fromOrganizationalUnits(OrganizationsTargetOptions.builder()
-                        .organizationalUnits(List.of(sandboxOU.getOrganizationalUnitId()))
+                        .organizationalUnits(List.of(sandboxOU.id()))
                         .regions(List.of(getRegion()))
                         .parameterOverrides(Map.of("defaultViewArn", sandboxOUView.getAttrViewArn()))
                         .build()))

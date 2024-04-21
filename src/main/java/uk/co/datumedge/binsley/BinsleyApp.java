@@ -3,6 +3,7 @@ package uk.co.datumedge.binsley;
 import software.amazon.awscdk.App;
 import software.amazon.awscdk.Environment;
 import software.amazon.awscdk.StackProps;
+import uk.co.datumedge.binsley.organization.*;
 
 import java.util.List;
 

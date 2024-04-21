@@ -1,4 +1,4 @@
-package uk.co.datumedge.binsley;
+package uk.co.datumedge.binsley.organization;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;

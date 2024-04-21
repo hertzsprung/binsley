@@ -1,4 +1,4 @@
-package uk.co.datumedge.binsley;
+package uk.co.datumedge.binsley.organization;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SsoStack extends Stack {
+    public static final String ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME = "AssumeBinsleyTestRunnerRole";
+
     public SsoStack(final Construct parent, final String id, final StackProps stackProps) {
         super(parent, id, stackProps);
 
@@ -18,7 +20,7 @@ public class SsoStack extends Stack {
                 .name("BinsleyTestReadOnlyAccess")
                 .description("Provides read-only access, with the ability to assume the BinsleyTestRunner role")
                 .managedPolicies(List.of("arn:aws:iam::aws:policy/ReadOnlyAccess"))
-                .customerManagedPolicyReferences(List.of(Map.of("name", BinsleyStack.ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME)))
+                .customerManagedPolicyReferences(List.of(Map.of("name", ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME)))
                 .build();
 
         CfnAssignment.Builder.create(this, "BinsleyTestReadOnlyAccessAssignment")

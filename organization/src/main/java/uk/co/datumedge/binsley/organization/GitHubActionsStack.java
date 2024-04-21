@@ -1,4 +1,4 @@
-package uk.co.datumedge.binsley;
+package uk.co.datumedge.binsley.organization;
 
 import io.github.cdklabs.cdkpipelines.github.GitHubActionRole;
 import io.github.cdklabs.cdkpipelines.github.GitHubActionRoleProps;
