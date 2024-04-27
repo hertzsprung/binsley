@@ -8,4 +8,5 @@ runs:
       with:
         distribution: corretto
         java-version: '21'
-        cache: gradle
+    - name: setup-gradle
+      uses: gradle/actions/setup-gradle@v3.3.2
