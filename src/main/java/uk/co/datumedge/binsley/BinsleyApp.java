@@ -3,6 +3,7 @@ package uk.co.datumedge.binsley;
 import software.amazon.awscdk.App;
 import software.amazon.awscdk.Environment;
 import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.Tags;
 import uk.co.datumedge.binsley.organization.*;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public final class BinsleyApp {
 
         new BinsleyStack(app, "Binsley");
         new SsoStack(app, "SSO", managementAccountStackProps());
+
+        Tags.of(app).add("Project", "binsley");
 
         app.synth();
     }
