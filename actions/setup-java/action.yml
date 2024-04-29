@@ -10,3 +10,5 @@ runs:
         java-version: '21'
     - name: setup-gradle
       uses: gradle/actions/setup-gradle@v3.3.2
+      with:
+        cache-disable: ${{ github.event_name == "schedule" }}
