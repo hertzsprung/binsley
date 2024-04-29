@@ -17,5 +17,5 @@ dependencies {
     implementation("com.pepperize:cdk-organizations:0.7.889")
     implementation("io.github.cdklabs:cdk-pipelines-github:0.4.116")
     implementation("io.github.cdklabs:cdk-stacksets:0.0.150")
-    implementation("software.amazon.awscdk:aws-cdk-lib:2.137.0")
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.139.0")
 }
