@@ -8,7 +8,12 @@ runs:
       with:
         distribution: corretto
         java-version: '21'
+    - name: dump-github-context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      shell: bash
+      run: echo "$GITHUB_CONTEXT"
     - name: setup-gradle
       uses: gradle/actions/setup-gradle@v3.3.2
       with:
-        cache-disable: ${{ github.event_name == "schedule" }}
+        cache-disable: false
