@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/organization" />
+            <option value="$PROJECT_DIR$/workflow-metrics" />
           </set>
         </option>
       </GradleProjectSettings>
