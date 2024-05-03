@@ -48,6 +48,7 @@ If the workflow fails again, do not roll back again; this avoids a cascade of ro
 * A workflow failure automatic rolls back the commit and any deployments.
 * Any failure occurring after a workflow completes successfully would need to be detected by a different mechanism, such as a [canary][cloudwatch-synthetic-monitoring].
 * `git pull` will not remove an offending commit from the main branch of the working tree, use `git reset --hard origin/main` instead
+* A workflow should run on each pushed commit; if a workflow fails with multiple commits pushed since the previous workflow, only the most recent commit is rolled back (which may result in another workflow failure)
 
 [adr-0013]: ./0013-adopt-trunk-based-development.md
 [adr-0014]: ./0014-store-in-house-sources-in-a-monorepo.md
