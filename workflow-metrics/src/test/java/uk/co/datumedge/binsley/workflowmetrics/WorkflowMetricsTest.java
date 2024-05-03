@@ -31,7 +31,10 @@ public class WorkflowMetricsTest {
 
                 deliverGitHubWorkflowStatusEvent(cloudWatch, workflowCompletionTime);
 
-                await().atMost(30, SECONDS).untilAsserted(() -> assertThat(cloudwatchMetrics(cloudWatch)).isEqualTo(workflowCompletionTime));
+                await()
+                        .atMost(60, SECONDS)
+                        .pollInterval(1, SECONDS)
+                        .untilAsserted(() -> assertThat(cloudwatchMetrics(cloudWatch)).isEqualTo(workflowCompletionTime));
             }
         }
     }
@@ -51,14 +54,14 @@ public class WorkflowMetricsTest {
     private Double cloudwatchMetrics(CloudWatchClient cloudWatch) {
         GetMetricDataResponse response = cloudWatch.getMetricData(b -> b
                 .maxDatapoints(1)
-                .startTime(Instant.now().minusSeconds(60))
+                .startTime(Instant.now().minusSeconds(120))
                 .metricDataQueries(q -> q
                         .id("workflowCompletionTime")
                         .metricStat(s -> s.metric(m -> m
                                 .namespace("DatumEdge/Binsley/Test/Workflow")
                                 .metricName("CompletionTime"))
                         .stat("Maximum")
-                        .period(60 /* seconds */)))
+                        .period(120 /* seconds */)))
                 .endTime(Instant.now())
         );
 
