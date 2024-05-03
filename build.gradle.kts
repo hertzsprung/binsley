@@ -25,6 +25,7 @@ repositories {
 
 dependencies {
     implementation(project(":organization"))
+    implementation(project(":workflow-metrics"))
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("software.amazon.awscdk:aws-cdk-lib:2.137.0")
     implementation("software.constructs:constructs:10.3.0")

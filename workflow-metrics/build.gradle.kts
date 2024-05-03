@@ -18,6 +18,8 @@ repositories {
 }
 
 dependencies {
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.137.0")
+
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -28,6 +30,7 @@ dependencies {
     testImplementation("software.amazon.awssdk:cloudwatch")
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
+    testImplementation("software.amazon.awssdk:sts")
     testImplementation(platform("org.slf4j:slf4j-bom:2.0.13"))
     testImplementation("org.slf4j:slf4j-simple:2.0.13")
 }

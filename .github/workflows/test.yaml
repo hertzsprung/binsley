@@ -34,4 +34,4 @@ jobs:
       uses: mikepenz/action-junit-report@v4.2.1
       if: ${{ !cancelled() && (steps.gradle-test.outcome == 'success' || steps.gradle-test.outcome == 'failure') }}
       with:
-        report_paths: 'build/test-results/test/TEST-*.xml'
+        report_paths: '**/build/test-results/test/TEST-*.xml'

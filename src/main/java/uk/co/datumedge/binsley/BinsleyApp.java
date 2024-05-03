@@ -5,6 +5,7 @@ import software.amazon.awscdk.Environment;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.Tags;
 import uk.co.datumedge.binsley.organization.*;
+import uk.co.datumedge.binsley.workflowmetrics.WorkflowMetricsStack;
 
 import java.util.List;
 
@@ -31,7 +32,9 @@ public final class BinsleyApp {
                 .env(Environment.builder().account(binsleyTestAccountId()).build())
                 .build(), "test");
 
-        new BinsleyStack(app, "Binsley");
+        var workflowMetrics = new WorkflowMetricsStack(app, "WorkflowMetrics");
+
+        new BinsleyStack(app, "Binsley", StackProps.builder().build(), List.of(workflowMetrics.testRunnerPolicy()));
         new SsoStack(app, "SSO", managementAccountStackProps());
 
         Tags.of(app).add("Project", "binsley");
