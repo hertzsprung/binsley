@@ -16,7 +16,7 @@ import java.util.List;
 import static uk.co.datumedge.binsley.organization.SsoStack.ASSUME_BINSLEY_TEST_RUNNER_ROLE_NAME;
 
 public class BinsleyStack extends Stack {
-    public BinsleyStack(final Construct parent, final String id, final StackProps props, final List<Policy> testRunnerPolicies) {
+    public BinsleyStack(final Construct parent, final String id, final StackProps props) {
         super(parent, id, props);
         var apiLambda = Function.Builder.create(this, "ApiLambda")
                 .runtime(Runtime.NODEJS_18_X)
@@ -90,7 +90,13 @@ public class BinsleyStack extends Stack {
                 .assumedBy(new SessionTagsPrincipal(new AccountRootPrincipal()))
                 .build();
 
-        testRunnerPolicies.forEach(testRunnerRole::attachInlinePolicy);
+        testRunnerRole.attachInlinePolicy(Policy.Builder.create(this, "WorkflowMetrics/BinsleyTestRunner")
+                .policyName("WorkflowMetrics")
+                .statements(List.of(PolicyStatement.Builder.create()
+                        .actions(List.of("cloudwatch:GetMetricData", "cloudwatch:PutMetricData"))
+                        .resources(List.of("*"))
+                        .build()))
+                .build());
 
         apiBaseUrl.grantRead(testRunnerRole);
         userPool.grant(testRunnerRole, "cognito-idp:DescribeUserPoolClient");
