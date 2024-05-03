@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.sts.model.Credentials;
 
 import java.time.Instant;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
@@ -30,7 +31,7 @@ public class WorkflowMetricsTest {
 
                 deliverGitHubWorkflowStatusEvent(cloudWatch, workflowCompletionTime);
 
-                await().untilAsserted(() -> assertThat(cloudwatchMetrics(cloudWatch)).isEqualTo(workflowCompletionTime));
+                await().atMost(30, SECONDS).untilAsserted(() -> assertThat(cloudwatchMetrics(cloudWatch)).isEqualTo(workflowCompletionTime));
             }
         }
     }
