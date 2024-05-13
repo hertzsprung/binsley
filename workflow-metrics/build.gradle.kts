@@ -24,7 +24,7 @@ dependencies {
     testImplementation(platform("org.assertj:assertj-bom:3.25.3"))
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.awaitility:awaitility:4.2.1")
-    testImplementation(platform("software.amazon.awssdk:bom:2.25.46"))
+    testImplementation(platform("software.amazon.awssdk:bom:2.25.51"))
     testImplementation("software.amazon.awssdk:cloudwatch")
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
