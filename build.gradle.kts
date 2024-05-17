@@ -21,6 +21,7 @@ tasks.named<Test>("test") {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {

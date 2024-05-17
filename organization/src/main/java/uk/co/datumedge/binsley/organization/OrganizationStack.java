@@ -1,18 +1,17 @@
 package uk.co.datumedge.binsley.organization;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pepperize.cdk.organizations.OrganizationalUnit;
 import com.pepperize.cdk.organizations.*;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
-import software.amazon.awscdk.services.iam.Effect;
-import software.amazon.awscdk.services.iam.PolicyDocument;
-import software.amazon.awscdk.services.iam.PolicyStatement;
 import software.constructs.Construct;
 
+import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.List;
+import java.util.Objects;
+
+import static com.pepperize.cdk.organizations.PolicyType.SERVICE_CONTROL_POLICY;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Declares the hierarchy of Organizational Units (OUs).
@@ -49,24 +48,32 @@ public class OrganizationStack extends Stack {
                 .parent(organization.getRoot())
                 .build();
 
-        sandboxOU.attachPolicy(elevatedPowerUser());
+        organization.getRoot().attachPolicy(policy("DeploymentRegions", "scp-deny-using-other-regions.json")
+                .description("Deny actions outside deployment regions")
+                .build());
+
+        organization.getRoot().attachPolicy(policy("AccountBaseline", "scp-deny-changing-account-baseline-configuration.json")
+                .description("Deny changes to baseline account configuration")
+                .build());
+
+        organization.getRoot().attachPolicy(policy("NoPurchases", "scp-deny-making-agreements-purchases-and-reservations.json")
+                .description("Deny long-term financial commitments")
+                .build());
+
+        organization.getRoot().attachPolicy(policy("NoIAM", "scp-deny-modifying-central-iam-resources.json")
+                .description("Deny actions on IAM users, groups, or central IAM resources")
+                .build());
     }
 
-    private IPolicy elevatedPowerUser() {
-            try {
-        return Policy.Builder.create(this, "SandboxOUPolicy")
-                .policyType(PolicyType.SERVICE_CONTROL_POLICY)
-                .policyName("ElevatedPowerUser")
-                .description("Allow CDK bootstrap")
-                .content(new ObjectMapper().writeValueAsString(PolicyDocument.Builder.create()
-                        .statements(List.of(PolicyStatement.Builder.create()
-                                .effect(Effect.DENY)
-                                .actions(List.of("organization:*", "account:*"))
-                                .resources(List.of("*"))
-                                .build()))
-                        .build().toJSON()))
-                .build();
-        } catch (JsonProcessingException e) {
+    private Policy.Builder policy(String id, String fileName) {
+        try {
+            var policyDocument = new String(Objects.requireNonNull(getClass().getResourceAsStream(fileName)).readAllBytes(), UTF_8);
+
+            return Policy.Builder.create(this, id)
+                .policyType(SERVICE_CONTROL_POLICY)
+                .policyName(id)
+                .content(policyDocument);
+        } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }

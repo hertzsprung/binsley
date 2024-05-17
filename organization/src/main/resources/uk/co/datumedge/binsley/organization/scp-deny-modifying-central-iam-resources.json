@@ -1,0 +1,46 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:Generate*",
+        "iam:Get*",
+        "iam:List*"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:role/OrganizationAccountAccessRole",
+        "arn:aws:iam::*:role/aws-reserved/sso.amazonaws.com/*",
+        "arn:aws:iam::*:oidc-provider/*",
+        "arn:aws:iam::*:saml-provider/*"
+      ]
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "iam:AddUserToGroup",
+        "iam:AttachUserPolicy",
+        "iam:CreateUser",
+        "iam:DeleteUser",
+        "iam:DeleteUserPermissionsBoundary",
+        "iam:DeleteUserPolicy",
+        "iam:DetachUserPolicy",
+        "iam:PutUserPermissionsBoundary",
+        "iam:PutUserPolicy",
+        "iam:RemoveUserFromGroup",
+        "iam:TagUser",
+        "iam:UntagUser",
+        "iam:UpdateUser",
+        "iam:AttachGroupPolicy",
+        "iam:CreateGroup",
+        "iam:DeleteGroup",
+        "iam:DeleteGroupPolicy",
+        "iam:DetachGroupPolicy",
+        "iam:PutGroupPolicy",
+        "iam:RemoveUserFromGroup",
+        "iam:UpdateGroup"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

@@ -51,7 +51,7 @@ jobs:
         with:
           account-id: ${{ vars.AWS_ACCOUNT_ID }}
       - name: npm-install-cdk
-        run: npm install -g aws-cdk@2.140.0
+        run: npm install -g aws-cdk@2.142.1
       - name: checkout
         uses: actions/checkout@v4.1.5
       - name: setup-java
