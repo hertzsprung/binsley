@@ -28,24 +28,25 @@ concurrency:
   group: default
   cancel-in-progress: false
 jobs:
+  force-rollback:
+    runs-on: ubuntu-22.04
+    steps:
+     - name: force-rollback
+       run: |
+         echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
+         false
+       if: ${{ inputs.force_rollback }}
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
+    needs: force-rollback
+    strategy:
+      matrix:
+        subproject:
+          - name: workflow-metrics
+            stack: WorkflowMetrics
+      max-parallel: 1
     steps:
-      - name: force-rollback
-        run: |
-          echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
-          false
-        if: ${{ inputs.force_rollback }}
-      - name: check-aws-account-id
-        uses: actions/github-script@v7.0.1
-        with:
-          script: |
-            if ("${{ vars.AWS_ACCOUNT_ID }}" == "") {
-              core.setFailed("AWS_ACCOUNT_ID is unspecified")
-            } else {
-              core.info("AWS_ACCOUNT_ID is ${{ vars.AWS_ACCOUNT_ID }}")
-            }
       - name: aws-assume-role
         uses: hertzsprung/binsley/actions/aws-assume-role@main
         with:
@@ -68,7 +69,7 @@ jobs:
           name: cdk-diff-security
           path: cdk-diff-security
       - name: cdk-deploy
-        run: cdk deploy --require-approval never Binsley
+        run: cdk deploy --require-approval never "${{ matrix.subproject.stack }}*"
         if: ${{ !cancelled() && (steps.cdk-permissions-broadening.outcome == 'success' || steps.cdk-permissions-broadening.outcome == 'failure') }}
   test:
     uses: ./.github/workflows/test.yaml
