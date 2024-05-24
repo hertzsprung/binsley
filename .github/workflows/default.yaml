@@ -29,13 +29,13 @@ concurrency:
   cancel-in-progress: false
 jobs:
   force-rollback:
+    if: ${{ inputs.force_rollback }}
     runs-on: ubuntu-22.04
     steps:
      - name: force-rollback
        run: |
          echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
          false
-       if: ${{ inputs.force_rollback }}
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
@@ -43,8 +43,7 @@ jobs:
     strategy:
       matrix:
         subproject:
-          - name: workflow-metrics
-            stack: WorkflowMetrics
+          - WorkflowMetrics
       max-parallel: 1
     steps:
       - name: aws-assume-role
@@ -59,17 +58,17 @@ jobs:
         uses: hertzsprung/binsley/actions/setup-java@main
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
-        run: cdk diff --security-only --fail Binsley > cdk-diff-security
+        run: cdk diff --security-only --fail "${{ matrix.subproject }}*" > cdk-diff-security
         continue-on-error: true
       - name: cdk-diff-security
         id: cdk-diff-security
         uses: actions/upload-artifact@v4.3.3
         if: ${{ !cancelled() && steps.cdk-permissions-broadening.outcome == 'failure' }}
         with:
-          name: cdk-diff-security
+          name: cdk-diff-security.${{ matrix.subproject }}
           path: cdk-diff-security
       - name: cdk-deploy
-        run: cdk deploy --require-approval never "${{ matrix.subproject.stack }}*"
+        run: cdk deploy --require-approval never "${{ matrix.subproject }}*"
         if: ${{ !cancelled() && (steps.cdk-permissions-broadening.outcome == 'success' || steps.cdk-permissions-broadening.outcome == 'failure') }}
   test:
     uses: ./.github/workflows/test.yaml
