@@ -40,7 +40,7 @@ jobs:
     environment: test
     runs-on: ubuntu-22.04
     needs: force-rollback
-    if: ${{ needs.force-rollback.result == 'skipped' }}
+    if: ${{ !cancelled() && needs.force-rollback.result == 'skipped' }}
     strategy:
       matrix:
         subproject:
