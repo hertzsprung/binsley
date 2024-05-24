@@ -35,7 +35,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(platform("org.assertj:assertj-bom:3.25.3"))
     testImplementation("org.assertj:assertj-core")
-    testImplementation(platform("software.amazon.awssdk:bom:2.25.51"))
+    testImplementation(platform("software.amazon.awssdk:bom:2.25.59"))
     testImplementation("software.amazon.awssdk:cognitoidentityprovider")
     testImplementation("software.amazon.awssdk:iam")
     testImplementation("software.amazon.awssdk:ssm")
