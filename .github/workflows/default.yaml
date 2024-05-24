@@ -35,7 +35,7 @@ jobs:
        run: |
          echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
          false
-        if: ${{ inputs.force_rollback }}
+       if: ${{ inputs.force_rollback }}
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
