@@ -29,13 +29,13 @@ concurrency:
   cancel-in-progress: false
 jobs:
   force-rollback:
-    if: ${{ inputs.force_rollback }}
     runs-on: ubuntu-22.04
     steps:
      - name: force-rollback
        run: |
          echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
          false
+        if: ${{ inputs.force_rollback }}
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
