@@ -6,6 +6,10 @@ import software.amazon.awscdk.services.sqs.Queue;
 import software.constructs.Construct;
 
 public class WorkflowMetricsStack extends Stack {
+    public WorkflowMetricsStack(final Construct parent, final String id) {
+        this(parent, id, null);
+    }
+
     public WorkflowMetricsStack(final Construct parent, final String id, final StackProps props) {
         super(parent, id, props);
 
