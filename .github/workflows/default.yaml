@@ -30,16 +30,17 @@ concurrency:
 jobs:
   force-rollback:
     runs-on: ubuntu-22.04
+    if: ${{ inputs.force_rollback }}
     steps:
      - name: force-rollback
        run: |
          echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
          false
-       if: ${{ inputs.force_rollback }}
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
     needs: force-rollback
+    if: ${{ needs.force-rollback.result == 'skipped' }}
     strategy:
       matrix:
         subproject:
@@ -77,7 +78,7 @@ jobs:
       environment: test
   rollback:
     runs-on: ubuntu-22.04
-    needs: [cdk-deploy, test]
+    needs: [force-rollback, cdk-deploy, test]
     if: ${{ !cancelled() && contains(needs.*.result, 'failure') && !inputs.prevent_rollback }}
     steps:
       - name: checkout
