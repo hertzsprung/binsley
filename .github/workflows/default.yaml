@@ -74,6 +74,7 @@ jobs:
   test:
     uses: ./.github/workflows/test.yaml
     needs: cdk-deploy
+    if: ${{ always() }}
     with:
       environment: test
   rollback:
