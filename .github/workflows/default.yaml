@@ -41,6 +41,8 @@ jobs:
      outputs:
        subprojects: ${{ steps.filter.outputs.changes }}
      steps:
+     - name: checkout
+       uses: actions/checkout@v4.1.6
      - uses: dorny/paths-filter@v3.0.2
        id: filter
        with:
