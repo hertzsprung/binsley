@@ -36,15 +36,24 @@ jobs:
        run: |
          echo "Forced rollback" >> $GITHUB_STEP_SUMMARY
          false
+  changes:
+     runs-on: ubuntu-22.04
+     outputs:
+       subprojects: ${{ steps.filter.outputs.changes }}
+     steps:
+     - uses: dorny/paths-filter@v3.0.2
+       id: filter
+       with:
+         filters: |
+           WorkflowMetrics: WorkflowMetrics
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
-    needs: force-rollback
+    needs: [force-rollback, changes]
     if: ${{ !cancelled() && needs.force-rollback.result == 'skipped' }}
     strategy:
       matrix:
-        subproject:
-          - WorkflowMetrics
+        subproject: ${{ fromJSON(needs.changes.outputs.subprojects) }}
       max-parallel: 1
     steps:
       - name: aws-assume-role
@@ -80,7 +89,7 @@ jobs:
   rollback:
     runs-on: ubuntu-22.04
     needs: [force-rollback, cdk-deploy, test]
-    if: ${{ !cancelled() && contains(needs.*.result, 'failure') && !inputs.prevent_rollback }}
+    if: ${{ always() && !cancelled() && contains(needs.*.result, 'failure') && !inputs.prevent_rollback }}
     steps:
       - name: checkout
         uses: actions/checkout@v4.1.6
