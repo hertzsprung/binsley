@@ -74,6 +74,7 @@ jobs:
   test:
     uses: ./.github/workflows/test.yaml
     needs: cdk-deploy
+    if: always() && !cancelled() && !failure() # https://github.com/actions/runner/issues/491#issuecomment-1507495166
     with:
       environment: test
   rollback:
