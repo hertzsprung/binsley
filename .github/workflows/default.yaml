@@ -11,6 +11,11 @@ on:
         required: true
         default: false
         description: 'Prevent rollback on workflow failure'
+      force_unconditional_execution:
+        type: boolean
+        required: true
+        default: false
+        description: 'Force unconditional execution of jobs without Gradle caching'
   push:
     branches:
       - main
