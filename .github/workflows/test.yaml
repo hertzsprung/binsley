@@ -11,6 +11,11 @@ on:
         required: true
         default: test
         description: 'GitHub Actions deployment environment'
+      force_unconditional_execution:
+        type: boolean
+        required: true
+        default: false
+        description: 'Force unconditional execution of jobs without Gradle caching'
 permissions:
   id-token: write
   checks: write
@@ -23,6 +28,8 @@ jobs:
       uses: actions/checkout@v4.1.6
     - name: setup-java
       uses: hertzsprung/binsley/actions/setup-java@main
+      with:
+        force_unconditional_execution: ${{ inputs.force_unconditional_execution }}
     - name: aws-assume-role
       uses: hertzsprung/binsley/actions/aws-assume-role@main
       with:

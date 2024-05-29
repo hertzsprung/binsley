@@ -1,5 +1,10 @@
 name: setup-java
-description: Setup Amazon Corretto 21
+description: Setup Amazon Corretto 21 with Gradle
+inputs:
+  force_unconditional_execution:
+    required: true
+    default: "false"
+    description: 'Force unconditional execution of jobs without Gradle caching'
 runs:
   using: composite
   steps:
@@ -11,4 +16,4 @@ runs:
     - name: setup-gradle
       uses: gradle/actions/setup-gradle@v3.3.2
       with:
-        cache-disabled: ${{ github.event_name == 'schedule' }}
+        cache-disabled: ${{ inputs.force_unconditional_execution == 'true' || github.event_name == 'schedule' }}

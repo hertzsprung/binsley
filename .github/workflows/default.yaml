@@ -73,6 +73,8 @@ jobs:
         uses: actions/checkout@v4.1.6
       - name: setup-java
         uses: hertzsprung/binsley/actions/setup-java@main
+        with:
+          force_unconditional_execution: ${{ inputs.force_unconditional_execution }}
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
         run: cdk diff --security-only --fail "${{ matrix.subproject }}*" > cdk-diff-security
