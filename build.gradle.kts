@@ -28,7 +28,7 @@ dependencies {
     implementation(project(":organization"))
     implementation(project(":WorkflowMetrics"))
     implementation("ch.qos.logback:logback-classic:1.5.6")
-    implementation("software.amazon.awscdk:aws-cdk-lib:2.142.1")
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.143.0")
     implementation("software.constructs:constructs:10.3.0")
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
