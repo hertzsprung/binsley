@@ -52,16 +52,13 @@ jobs:
        id: filter
        with:
          filters: |
-           WorkflowMetrics: WorkflowMetrics
+           WorkflowMetrics: WorkflowMetrics/**
+     - run: echo "stacks=${{ steps.changes.outputs.subprojects }}" >> $GITHUB_OUTPUT
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
     needs: [force-rollback, changes]
     if: ${{ !cancelled() && needs.force-rollback.result == 'skipped' && needs.changes.outputs.subprojects != '' && toJson(fromJson(needs.changes.outputs.subprojects)) != '[]' }}
-    strategy:
-      matrix:
-        subproject: ${{ fromJSON(needs.changes.outputs.subprojects) }}
-      max-parallel: 1
     steps:
       - name: aws-assume-role
         uses: hertzsprung/binsley/actions/aws-assume-role@main
@@ -77,17 +74,17 @@ jobs:
           force_unconditional_execution: ${{ inputs.force_unconditional_execution }}
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
-        run: cdk diff --security-only --fail "${{ matrix.subproject }}*" > cdk-diff-security
+        run: cdk diff --security-only --fail "${{ needs.changes.outputs.stacks }}" > cdk-diff-security
         continue-on-error: true
       - name: cdk-diff-security
         id: cdk-diff-security
         uses: actions/upload-artifact@v4.3.3
         if: ${{ !cancelled() && steps.cdk-permissions-broadening.outcome == 'failure' }}
         with:
-          name: cdk-diff-security.${{ matrix.subproject }}
+          name: cdk-diff-security
           path: cdk-diff-security
       - name: cdk-deploy
-        run: cdk deploy --require-approval never "${{ matrix.subproject }}*"
+        run: cdk deploy --require-approval never "${{ needs.changes.outputs.stacks }}"
         if: ${{ !cancelled() && (steps.cdk-permissions-broadening.outcome == 'success' || steps.cdk-permissions-broadening.outcome == 'failure') }}
   test:
     uses: ./.github/workflows/test.yaml
