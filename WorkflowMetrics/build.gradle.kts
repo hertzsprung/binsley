@@ -18,15 +18,15 @@ repositories {
 }
 
 dependencies {
-    implementation("software.amazon.awscdk:aws-cdk-lib:2.142.1")
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.143.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation(platform("org.assertj:assertj-bom:3.25.3"))
+    testImplementation(platform("org.assertj:assertj-bom:3.26.0"))
     testImplementation("org.assertj:assertj-core")
     testImplementation("org.awaitility:awaitility:4.2.1")
-    testImplementation(platform("software.amazon.awssdk:bom:2.25.59"))
+    testImplementation(platform("software.amazon.awssdk:bom:2.25.60"))
     testImplementation("software.amazon.awssdk:cloudwatch")
     testImplementation("software.amazon.awssdk:sso")
     testImplementation("software.amazon.awssdk:ssooidc")
