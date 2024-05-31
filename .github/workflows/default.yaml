@@ -52,8 +52,8 @@ jobs:
        id: filter
        with:
          filters: |
-           WorkflowMetrics: WorkflowMetrics/**
-     - run: echo "stacks=${{ steps.changes.outputs.subprojects }}" >> $GITHUB_OUTPUT
+           WorkflowMetrics: **
+     - run: echo "stacks=$(jq -c '. | map(. + "*")' <<< ${{ steps.filter.outputs.changes }})" >> $GITHUB_OUTPUT
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
