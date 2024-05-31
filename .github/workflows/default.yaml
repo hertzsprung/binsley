@@ -52,7 +52,7 @@ jobs:
        id: filter
        with:
          filters: |
-           WorkflowMetrics: **
+           WorkflowMetrics: "**"
      - run: echo "stacks=$(jq -c '. | map(. + "*")' <<< ${{ steps.filter.outputs.changes }})" >> $GITHUB_OUTPUT
   cdk-deploy:
     environment: test
