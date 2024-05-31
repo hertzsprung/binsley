@@ -53,7 +53,7 @@ jobs:
        uses: dorny/paths-filter@v3.0.2
        with:
          filters: |
-           WorkflowMetrics: "**"
+           WorkflowMetrics: WorkflowMetrics/**
      - id: wildcard-stacks
        run: echo "stacks=$(jq -r '. | map(. + "*") | @sh' <<< '${{ steps.filter.outputs.changes }}')" >> $GITHUB_OUTPUT
   cdk-deploy:
