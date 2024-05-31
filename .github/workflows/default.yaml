@@ -76,7 +76,7 @@ jobs:
           force_unconditional_execution: ${{ inputs.force_unconditional_execution }}
       - name: cdk-permissions-broadening
         id: cdk-permissions-broadening
-        run: cdk diff --security-only --fail "${{ needs.changes.outputs.stacks }}" > cdk-diff-security
+        run: cdk diff --security-only --fail ${{ needs.changes.outputs.stacks }} > cdk-diff-security
         continue-on-error: true
       - name: cdk-diff-security
         id: cdk-diff-security
@@ -86,7 +86,7 @@ jobs:
           name: cdk-diff-security
           path: cdk-diff-security
       - name: cdk-deploy
-        run: cdk deploy --require-approval never "${{ needs.changes.outputs.stacks }}"
+        run: cdk deploy --require-approval never ${{ needs.changes.outputs.stacks }}
         if: ${{ !cancelled() && (steps.cdk-permissions-broadening.outcome == 'success' || steps.cdk-permissions-broadening.outcome == 'failure') }}
   test:
     uses: ./.github/workflows/test.yaml
