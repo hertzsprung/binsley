@@ -55,7 +55,7 @@ jobs:
          filters: |
            WorkflowMetrics: "**"
      - id: wildcard-stacks
-       run: echo "stacks=$(jq -c '. | map(. + "*")' <<< '${{ steps.filter.outputs.changes }}')" >> $GITHUB_OUTPUT
+       run: echo "stacks=$(jq -r '. | map(. + "*") | join(" ")' <<< '${{ steps.filter.outputs.changes }}')" >> $GITHUB_OUTPUT
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
