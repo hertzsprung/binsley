@@ -45,16 +45,17 @@ jobs:
      runs-on: ubuntu-22.04
      outputs:
        subprojects: ${{ steps.filter.outputs.changes }}
+       stacks: ${{ steps.wildcard-stacks.outputs.stacks }}
      steps:
      - name: checkout
        uses: actions/checkout@v4.1.6
-     - uses: dorny/paths-filter@v3.0.2
-       id: filter
+     - id: filter
+       uses: dorny/paths-filter@v3.0.2
        with:
          filters: |
            WorkflowMetrics: "**"
-     - run: echo ${{ steps.filter.outputs.changes }}
-     - run: echo "stacks=$(jq -c '. | map(. + "*")' <<< '${{ steps.filter.outputs.changes }}')" >> $GITHUB_OUTPUT
+     - id: wildcard-stacks
+       run: echo "stacks=$(jq -c '. | map(. + "*")' <<< '${{ steps.filter.outputs.changes }}')" >> $GITHUB_OUTPUT
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
