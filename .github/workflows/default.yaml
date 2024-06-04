@@ -56,11 +56,18 @@ jobs:
            WorkflowMetrics: WorkflowMetrics/**
      - id: wildcard-stacks
        run: echo "stacks=$(jq -r '. | map(. + "*") | @sh' <<< '${{ steps.filter.outputs.changes }}')" >> $GITHUB_OUTPUT
+       if: ${{ !force_unconditional_execution }}
+     - id: all-stacks
+       run: echo "stacks='WorkflowMetrics*'" >> $GITHUB_OUTPUT
+       if: ${{ force_unconditional_execution }}
   cdk-deploy:
     environment: test
     runs-on: ubuntu-22.04
     needs: [force-rollback, changes]
-    if: ${{ !cancelled() && needs.force-rollback.result == 'skipped' && needs.changes.outputs.subprojects != '' && toJson(fromJson(needs.changes.outputs.subprojects)) != '[]' }}
+    if: |
+      ${{ !cancelled() && needs.force-rollback.result == 'skipped' &&
+        (force_unconditional_execution || (needs.changes.outputs.subprojects != '' && toJson(fromJson(needs.changes.outputs.subprojects)) != '[]'))
+      }}
     steps:
       - name: aws-assume-role
         uses: hertzsprung/binsley/actions/aws-assume-role@main
