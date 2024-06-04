@@ -44,7 +44,6 @@ jobs:
   changes:
      runs-on: ubuntu-22.04
      outputs:
-       subprojects: ${{ steps.filter.outputs.changes }}
        stacks: ${{ steps.wildcard-stacks.outputs.stacks }}
      steps:
      - name: checkout
@@ -66,7 +65,7 @@ jobs:
     needs: [force-rollback, changes]
     if: |
       ${{ !cancelled() && needs.force-rollback.result == 'skipped' &&
-        (vars.force_unconditional_execution || (needs.changes.outputs.subprojects != '' && toJson(fromJson(needs.changes.outputs.subprojects)) != '[]'))
+        (vars.force_unconditional_execution || needs.changes.outputs.stacks != '')
       }}
     steps:
       - name: aws-assume-role
