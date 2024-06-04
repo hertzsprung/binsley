@@ -44,7 +44,7 @@ jobs:
   changes:
      runs-on: ubuntu-22.04
      outputs:
-       stacks: ${{ steps.wildcard-stacks.outputs.stacks }}
+       stacks: ${{ steps.wildcard-stacks.outputs.stacks }}${{ steps.all-stacks.outputs.stacks }}
      steps:
      - name: checkout
        uses: actions/checkout@v4.1.6
