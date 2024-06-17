@@ -47,7 +47,7 @@ jobs:
        stacks: ${{ steps.wildcard-stacks.outputs.stacks }}${{ steps.all-stacks.outputs.stacks }}
      steps:
      - name: checkout
-       uses: actions/checkout@v4.1.6
+       uses: actions/checkout@v4.1.7
      - id: filter
        uses: dorny/paths-filter@v3.0.2
        with:
@@ -72,7 +72,7 @@ jobs:
       - name: npm-install-cdk
         run: npm install -g aws-cdk@2.142.1
       - name: checkout
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
       - name: setup-java
         uses: hertzsprung/binsley/actions/setup-java@main
         with:
@@ -103,7 +103,7 @@ jobs:
     if: ${{ always() && !cancelled() && contains(needs.*.result, 'failure') && !inputs.prevent_rollback }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
         with:
           fetch-depth: 2
           token: ${{ secrets.ROLLBACK_TOKEN }}
